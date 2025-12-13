@@ -1,0 +1,2022 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Symbolic Differentiation Calculator</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.3.0/math.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { 
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  padding: 20px;
+}
+.container { 
+  max-width: 1200px; 
+  margin: auto; 
+  background: rgba(255, 255, 255, 0.95); 
+  padding: 30px; 
+  border-radius: 20px; 
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+h1 { 
+  color: #667eea; 
+  text-align: center; 
+  font-size: 2.5em;
+  margin-bottom: 10px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+.subtitle {
+  text-align: center;
+  color: #666;
+  margin-bottom: 30px;
+  font-size: 1.1em;
+}
+h2 { 
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+  margin-bottom: 15px;
+  font-size: 1.3em;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+.section { 
+  margin-bottom: 25px; 
+  padding: 20px; 
+  border: 2px solid #e0e7ff; 
+  border-radius: 15px; 
+  background: linear-gradient(to bottom, #fafbff 0%, #f0f4ff 100%);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s;
+}
+.section:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.2);
+}
+input[type="text"] { 
+  width: 100%; 
+  padding: 14px; 
+  margin-bottom: 12px; 
+  border: 2px solid #c7d2fe; 
+  border-radius: 10px; 
+  font-size: 1.1em; 
+  font-family: 'Courier New', monospace;
+  background: white;
+  transition: border-color 0.3s;
+}
+input[type="text"]:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+button { 
+  padding: 12px 24px; 
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white; 
+  border: none; 
+  border-radius: 10px; 
+  cursor: pointer; 
+  margin-right: 8px;
+  margin-top: 8px;
+  font-size: 1em;
+  font-weight: 600;
+  transition: all 0.3s;
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+}
+button:hover { 
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+}
+button:active {
+  transform: translateY(0);
+}
+.steps { 
+  margin-top: 15px; 
+  padding: 20px; 
+  background: white;
+  border: 2px solid #e0e7ff; 
+  border-radius: 12px; 
+  line-height: 2;
+  min-height: 60px; 
+  font-size: 1.05em;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+}
+.keyboard { 
+  display: flex; 
+  gap: 8px; 
+  margin-bottom: 12px; 
+  flex-wrap: wrap; 
+}
+.keyboard button { 
+  flex: 0 0 auto; 
+  padding: 10px 16px; 
+  font-size: 1.2em; 
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  border-radius: 8px;
+  min-width: 50px;
+  box-shadow: 0 3px 10px rgba(245, 158, 11, 0.3);
+}
+.keyboard button:hover {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+}
+.step-box {
+  background: #f0f9ff;
+  border-left: 4px solid #0ea5e9;
+  padding: 12px 15px;
+  margin: 10px 0;
+  border-radius: 6px;
+}
+.step-title {
+  font-weight: bold;
+  color: #0369a1;
+  margin-bottom: 8px;
+  font-size: 1.1em;
+}
+.step-content {
+  color: #334155;
+  line-height: 1.8;
+}
+.formula {
+  background: #fef3c7;
+  padding: 8px 12px;
+  border-radius: 6px;
+  display: inline-block;
+  margin: 5px 0;
+  font-family: 'Courier New', monospace;
+  border: 1px solid #fcd34d;
+}
+.final-answer {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  padding: 15px 20px;
+  border-radius: 10px;
+  margin-top: 15px;
+  font-size: 1.2em;
+  font-weight: bold;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+}
+sup {
+  font-size: 0.7em;
+  vertical-align: super;
+}
+.music-control {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 15px 25px;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+  font-weight: 600;
+  transition: all 0.3s;
+  z-index: 1000;
+}
+.music-control:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
+}
+.decoration {
+  text-align: center;
+  margin: 20px 0;
+  font-size: 3em;
+}
+select {
+  padding: 10px;
+  border: 2px solid #c7d2fe;
+  border-radius: 8px;
+  font-size: 1em;
+  margin-left: 10px;
+  background: white;
+  cursor: pointer;
+}
+.fraction {
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+  margin: 0 3px;
+}
+.fraction .numerator {
+  display: block;
+  border-bottom: 2px solid #000;
+  padding: 0 5px 2px 5px;
+  min-width: 20px;
+}
+.fraction .denominator {
+  display: block;
+  padding: 2px 5px 0 5px;
+  min-width: 20px;
+}
+
+/* NEW GAME STYLES */
+#gameCanvas {
+  display: block;
+  margin: 20px auto;
+  background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+  border-radius: 15px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  cursor: crosshair;
+}
+
+.game-controls {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+
+.game-controls button {
+  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+  font-size: 1.1em;
+  padding: 15px 30px;
+  box-shadow: 0 5px 20px rgba(231, 76, 60, 0.4);
+}
+
+.game-controls button:hover {
+  background: linear-gradient(135deg, #ff6b6b 0%, #e74c3c 100%);
+}
+
+.game-stats {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;
+  padding: 20px;
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  border-radius: 15px;
+  color: white;
+  font-size: 1.2em;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+.stat-item {
+  text-align: center;
+  padding: 10px 20px;
+}
+
+.stat-value {
+  font-size: 2em;
+  font-weight: bold;
+  color: #f39c12;
+  text-shadow: 0 2px 10px rgba(243, 156, 18, 0.5);
+}
+
+.stat-label {
+  font-size: 0.9em;
+  color: #bdc3c7;
+  margin-top: 5px;
+}
+
+.difficulty-selector {
+  text-align: center;
+  margin: 15px 0;
+}
+
+.difficulty-selector label {
+  font-weight: bold;
+  margin-right: 10px;
+  color: #2c3e50;
+}
+
+.difficulty-selector select {
+  padding: 12px 20px;
+  font-size: 1.1em;
+  border: 2px solid #667eea;
+  border-radius: 10px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.difficulty-selector select:hover {
+  border-color: #764ba2;
+  box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+}
+
+.game-over-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.game-over-content {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 40px;
+  border-radius: 20px;
+  text-align: center;
+  color: white;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  animation: popIn 0.5s ease-out;
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.5); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.game-over-content h2 {
+  font-size: 3em;
+  margin-bottom: 20px;
+  text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.game-over-content .final-score {
+  font-size: 2.5em;
+  color: #f39c12;
+  margin: 20px 0;
+  text-shadow: 0 2px 10px rgba(243, 156, 18, 0.5);
+}
+
+.game-over-content button {
+  margin-top: 20px;
+  font-size: 1.3em;
+  padding: 15px 40px;
+}
+
+.power-up {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+.combo-display {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 2em;
+  color: #f39c12;
+  font-weight: bold;
+  text-shadow: 0 2px 10px rgba(243, 156, 18, 0.8);
+  animation: comboGlow 0.5s ease-in-out;
+}
+
+@keyframes comboGlow {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+<div class="decoration">📐 ∫ ∂ ∑ 📊</div>
+<h1>Symbolic Differentiation Calculator</h1>
+<p class="subtitle">Learn calculus step-by-step with detailed explanations!</p>
+
+<div class="section">
+<h2>🎯 General Differentiation (d/dx)</h2>
+<div class="keyboard" id="keyboard-general"></div>
+<input type="text" id="generalInput" placeholder="Enter expression, e.g., 3x²+2x">
+<button onclick="differentiateGeneral()">Differentiate</button>
+<div class="steps" id="generalSteps"></div>
+</div>
+
+<div class="section">
+<h2>➕ Sum Rule: d/dx(f + g)</h2>
+<div class="keyboard" id="keyboard-sum"></div>
+<input type="text" id="sumInput" placeholder="Enter terms separated by +, e.g., x²+ln(x)">
+<button onclick="sumRule()">Apply Sum Rule</button>
+<div class="steps" id="sumSteps"></div>
+</div>
+
+<div class="section">
+<h2>✖️ Product Rule: d/dx(fg)</h2>
+<div class="keyboard" id="keyboard-product"></div>
+<input type="text" id="productInput" placeholder="Enter in format (f)(g), e.g., (x²)(sin(x))">
+<button onclick="productRule()">Apply Product Rule</button>
+<div class="steps" id="productSteps"></div>
+</div>
+
+<div class="section">
+<h2>➗ Quotient Rule: d/dx(f/g)</h2>
+<div class="keyboard" id="keyboard-quotient"></div>
+<input type="text" id="quotientInput" placeholder="Enter in format f/g, e.g., sin(x)/x">
+<button onclick="quotientRule()">Apply Quotient Rule</button>
+<div class="steps" id="quotientSteps"></div>
+</div>
+
+<div class="section">
+<h2>⚡ Power Rule: d/dx(x^n)</h2>
+<div class="keyboard" id="keyboard-power"></div>
+<input type="text" id="powerInput" placeholder="Enter a power term, e.g., x⁴ or 3x⁵">
+<button onclick="powerRule()">Apply Power Rule</button>
+<div class="steps" id="powerSteps"></div>
+</div>
+
+<div class="section">
+<h2>🔢 Nth Derivative (d^n y / dx^n)</h2>
+<div class="keyboard" id="keyboard-nth"></div>
+<input type="text" id="nthInput" placeholder="Enter expression, e.g., x⁵">
+<select id="nthSelect">
+<option value="2">2nd Derivative</option>
+<option value="3">3rd Derivative</option>
+<option value="4">4th Derivative</option>
+<option value="5">5th Derivative</option>
+</select>
+<button onclick="nthDiff()">Compute Nth Derivative</button>
+<div class="steps" id="nthSteps"></div>
+</div>
+
+<div class="section">
+<h2>📈 Exponential Functions</h2>
+<div class="keyboard" id="keyboard-exp"></div>
+<input type="text" id="expInput" placeholder="Enter exponential, e.g., e^(3x) or e^(x²)">
+<button onclick="expRule()">Differentiate Exponential</button>
+<div class="steps" id="expSteps"></div>
+</div>
+
+<div class="section">
+<h2>📉 Logarithmic Functions</h2>
+<div class="keyboard" id="keyboard-log"></div>
+<input type="text" id="logInput" placeholder="Enter logarithm, e.g., ln(5x²+1) or ln(x)">
+<button onclick="logRule()">Differentiate Logarithm</button>
+<div class="steps" id="logSteps"></div>
+</div>
+
+<div class="section">
+  <h2>🎮 Derivative Defender - Arcade Shooter!</h2>
+  <p style="text-align: center; font-size: 1.1em; margin-bottom: 15px;">
+    <b>Shoot the falling equations by typing their correct derivatives!</b><br>
+    Type fast and accurately to rack up combos and high scores! 🚀
+  </p>
+
+  <div class="difficulty-selector">
+    <label for="difficultySelect">Difficulty:</label>
+    <select id="difficultySelect">
+      <option value="easy">Easy - Slow & Simple</option>
+      <option value="medium" selected>Medium - Balanced</option>
+      <option value="hard">Hard - Fast & Complex</option>
+      <option value="insane">Insane - Extreme Challenge!</option>
+    </select>
+  </div>
+
+  <div class="game-stats">
+    <div class="stat-item">
+      <div class="stat-value" id="gameScore">0</div>
+      <div class="stat-label">SCORE</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value" id="gameLevel">1</div>
+      <div class="stat-label">LEVEL</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value" id="gameCombo">0</div>
+      <div class="stat-label">COMBO</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value" id="gameLives">❤️❤️❤️</div>
+      <div class="stat-label">LIVES</div>
+    </div>
+  </div>
+
+  <canvas id="gameCanvas" width="800" height="600"></canvas>
+
+  <div style="text-align: center; margin: 15px 0;">
+    <input type="text" id="gameInput" placeholder="Type the derivative here..." 
+           style="width: 60%; font-size: 1.2em; text-align: center;" disabled>
+  </div>
+
+  <div class="game-controls">
+    <button onclick="startArcadeGame()">🚀 START GAME</button>
+    <button onclick="pauseArcadeGame()">⏸️ PAUSE</button>
+    <button onclick="resetArcadeGame()">🔄 RESET</button>
+  </div>
+
+  <div style="background: #fff3cd; padding: 15px; border-radius: 10px; margin-top: 15px; border-left: 4px solid #ffc107;">
+    <b>🎯 How to Play:</b><br>
+    • Equations fall from the top - type their derivatives to destroy them!<br>
+    • Build combos by answering correctly in a row (2x, 3x, 5x multipliers!)<br>
+    • Don't let equations reach the bottom or you lose a life!<br>
+    • Collect power-ups: ⚡ Slow Time, 💚 Extra Life, 🎯 Double Points<br>
+    • Level up every 10 correct answers - speed increases!
+  </div>
+</div>
+
+</div>
+
+<div class="game-over-overlay" id="gameOverOverlay">
+  <div class="game-over-content">
+    <h2>🎮 GAME OVER! 🎮</h2>
+    <div class="final-score">
+      Score: <span id="finalScore">0</span>
+    </div>
+    <div style="font-size: 1.3em; margin: 15px 0;">
+      Level Reached: <span id="finalLevel">1</span><br>
+      Max Combo: <span id="finalCombo">0</span><br>
+      Accuracy: <span id="finalAccuracy">0%</span>
+    </div>
+    <button onclick="closeGameOver()">Play Again</button>
+  </div>
+</div>
+
+<div class="music-control" onclick="toggleMusic()">🎵 Music: <span id="musicStatus">OFF</span></div>
+
+<script>
+// Audio Context for generating relaxing background music
+let audioContext;
+let musicNodes = [];
+let isMusicPlaying = false;
+
+function initAudio() {
+  if (!audioContext) {
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  }
+}
+
+function playClickSound() {
+  initAudio();
+  const oscillator = audioContext.createOscillator();
+  const gainNode = audioContext.createGain();
+  
+  oscillator.connect(gainNode);
+  gainNode.connect(audioContext.destination);
+  
+  oscillator.frequency.value = 800;
+  oscillator.type = 'sine';
+  
+  gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+  gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+  
+  oscillator.start(audioContext.currentTime);
+  oscillator.stop(audioContext.currentTime + 0.1);
+}
+
+function toggleMusic() {
+  initAudio();
+  
+  if (isMusicPlaying) {
+    stopBackgroundMusic();
+    document.getElementById('musicStatus').textContent = 'OFF';
+    isMusicPlaying = false;
+  } else {
+    playBackgroundMusic();
+    document.getElementById('musicStatus').textContent = 'ON';
+    isMusicPlaying = true;
+  }
+}
+
+function playBackgroundMusic() {
+  // Relaxing ambient music with multiple layers
+  const now = audioContext.currentTime;
+  
+  // Bass layer - slow moving bass notes
+  const bassNotes = [130.81, 146.83, 164.81, 174.61]; // C3, D3, E3, F3
+  let bassIndex = 0;
+  
+  function playBass() {
+    if (!isMusicPlaying) return;
+    
+    const osc = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+    const filter = audioContext.createBiquadFilter();
+    
+    filter.type = 'lowpass';
+    filter.frequency.value = 300;
+    
+    osc.connect(filter);
+    filter.connect(gain);
+    gain.connect(audioContext.destination);
+    
+    osc.type = 'sine';
+    osc.frequency.value = bassNotes[bassIndex % bassNotes.length];
+    
+    gain.gain.setValueAtTime(0, audioContext.currentTime);
+    gain.gain.linearRampToValueAtTime(0.15, audioContext.currentTime + 0.5);
+    gain.gain.setValueAtTime(0.15, audioContext.currentTime + 3.5);
+    gain.gain.linearRampToValueAtTime(0, audioContext.currentTime + 4);
+    
+    osc.start(audioContext.currentTime);
+    osc.stop(audioContext.currentTime + 4);
+    
+    bassIndex++;
+    setTimeout(playBass, 4000);
+  }
+  
+  // Melody layer - gentle melodic notes
+  const melodyNotes = [523.25, 587.33, 659.25, 698.46, 783.99]; // C5, D5, E5, F5, G5
+  let melodyIndex = 0;
+  
+  function playMelody() {
+    if (!isMusicPlaying) return;
+    
+    const osc = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+    const filter = audioContext.createBiquadFilter();
+    
+    filter.type = 'lowpass';
+    filter.frequency.value = 2000;
+    filter.Q.value = 1;
+    
+    osc.connect(filter);
+    filter.connect(gain);
+    gain.connect(audioContext.destination);
+    
+    osc.type = 'sine';
+    osc.frequency.value = melodyNotes[melodyIndex % melodyNotes.length];
+    
+    gain.gain.setValueAtTime(0, audioContext.currentTime);
+    gain.gain.linearRampToValueAtTime(0.08, audioContext.currentTime + 0.1);
+    gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 2);
+    
+    osc.start(audioContext.currentTime);
+    osc.stop(audioContext.currentTime + 2);
+    
+    melodyIndex++;
+    setTimeout(playMelody, 1500);
+  }
+  
+  // Pad layer - ambient sustained tones
+  function playPad() {
+    if (!isMusicPlaying) return;
+    
+    const osc1 = audioContext.createOscillator();
+    const osc2 = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+    const filter = audioContext.createBiquadFilter();
+    
+    filter.type = 'lowpass';
+    filter.frequency.value = 800;
+    filter.Q.value = 0.5;
+    
+    osc1.connect(filter);
+    osc2.connect(filter);
+    filter.connect(gain);
+    gain.connect(audioContext.destination);
+    
+    osc1.type = 'sine';
+    osc2.type = 'sine';
+    osc1.frequency.value = 261.63; // C4
+    osc2.frequency.value = 329.63; // E4
+    
+    gain.gain.setValueAtTime(0, audioContext.currentTime);
+    gain.gain.linearRampToValueAtTime(0.05, audioContext.currentTime + 2);
+    gain.gain.setValueAtTime(0.05, audioContext.currentTime + 6);
+    gain.gain.linearRampToValueAtTime(0, audioContext.currentTime + 8);
+    
+    osc1.start(audioContext.currentTime);
+    osc2.start(audioContext.currentTime);
+    osc1.stop(audioContext.currentTime + 8);
+    osc2.stop(audioContext.currentTime + 8);
+    
+    setTimeout(playPad, 8000);
+  }
+  
+  // Start all layers
+  playBass();
+  setTimeout(playMelody, 500);
+  setTimeout(playPad, 1000);
+}
+
+function stopBackgroundMusic() {
+  isMusicPlaying = false;
+}
+
+// Convert Unicode superscripts to standard notation
+function convertSuperscriptsToStandard(str) {
+  const superscriptMap = {
+    '⁰': '0', '¹': '1', '²': '2', '³': '3', '⁴': '4',
+    '⁵': '5', '⁶': '6', '⁷': '7', '⁸': '8', '⁹': '9',
+    '⁺': '+', '⁻': '-', 'ˣ': 'x'
+  };
+  let result = String(str);
+  for (let [sup, standard] of Object.entries(superscriptMap)) {
+    result = result.replace(new RegExp(sup, 'g'), standard);
+  }
+  // Convert superscript to ^ notation
+  result = result.replace(/([a-z])(\d+)/gi, '$1^$2');
+  return result;
+}
+
+// GCD function for factorization
+function gcd(a, b) {
+  a = Math.abs(a);
+  b = Math.abs(b);
+  while (b !== 0) {
+    let t = b;
+    b = a % b;
+    a = t;
+  }
+  return a;
+}
+
+// Advanced factorization function
+function factorExpression(expr) {
+  try {
+    const str = String(expr).replace(/\s/g, '');
+    
+    // Match pattern like "6x + 2" or "21x^2 + 14x"
+    const pattern = /^([+-]?\d*\.?\d+)x(\^\d+)?([+-]\d+\.?\d*)x?(\^\d+)?$/;
+    const match = str.match(pattern);
+    
+    if (match) {
+      // Extract coefficients
+      let coef1 = parseFloat(match[1]) || 1;
+      let coef2 = parseFloat(match[3]) || 0;
+      
+      // Find GCD
+      if (Number.isInteger(coef1) && Number.isInteger(coef2)) {
+        const commonFactor = gcd(coef1, Math.abs(coef2));
+        
+        if (commonFactor > 1) {
+          const newCoef1 = coef1 / commonFactor;
+          const newCoef2 = coef2 / commonFactor;
+          
+          let innerExpr = '';
+          if (newCoef1 === 1) {
+            innerExpr = 'x';
+          } else if (newCoef1 === -1) {
+            innerExpr = '-x';
+          } else {
+            innerExpr = newCoef1 + 'x';
+          }
+          
+          if (newCoef2 > 0) {
+            innerExpr += ' + ' + newCoef2;
+          } else if (newCoef2 < 0) {
+            innerExpr += ' - ' + Math.abs(newCoef2);
+          }
+          
+          return commonFactor + '(' + innerExpr + ')';
+        }
+      }
+    }
+    
+    // Try another pattern for simple cases
+    const simplePattern = /^(\d+)x\s*\+\s*(\d+)$/;
+    const simpleMatch = str.match(simplePattern);
+    
+    if (simpleMatch) {
+      const a = parseInt(simpleMatch[1]);
+      const b = parseInt(simpleMatch[2]);
+      const commonFactor = gcd(a, b);
+      
+      if (commonFactor > 1) {
+        const newA = a / commonFactor;
+        const newB = b / commonFactor;
+        return commonFactor + '(' + newA + 'x + ' + newB + ')';
+      }
+    }
+    
+    return expr;
+  } catch(e) {
+    return expr;
+  }
+}
+
+// Function to format fractions
+function formatAsFraction(expr) {
+  const str = String(expr).trim();
+  
+  // Check if it's a division expression
+  const divMatch = str.match(/^(.+?)\/(.+)$/);
+  if (divMatch) {
+    const num = divMatch[1].trim();
+    const den = divMatch[2].trim();
+    
+    // Format as HTML fraction
+    return '<span class="fraction"><span class="numerator">' + formatNicely(num) + '</span><span class="denominator">' + formatNicely(den) + '</span></span>';
+  }
+  
+  return formatNicely(expr);
+}
+
+// Formatting functions
+function formatNicely(expr) {
+  let result = String(expr);
+  
+  // Replace parentheses with square brackets for nested expressions
+  let depth = 0;
+  let newResult = '';
+  for (let i = 0; i < result.length; i++) {
+    if (result[i] === '(') {
+      if (depth > 0) {
+        newResult += '[';
+      } else {
+        newResult += '(';
+      }
+      depth++;
+    } else if (result[i] === ')') {
+      depth--;
+      if (depth > 0) {
+        newResult += ']';
+      } else {
+        newResult += ')';
+      }
+    } else {
+      newResult += result[i];
+    }
+  }
+  result = newResult;
+  
+  // Remove multiplication signs
+  result = result.replace(/\s*\*\s*/g, '');
+  
+  // Convert powers to superscript
+  result = result.replace(/\^(\d+)/g, '<sup>$1</sup>');
+  result = result.replace(/\^\(([^)]+)\)/g, '<sup>$1</sup>');
+  
+  // Handle parentheses for multiplication
+  result = result.replace(/(\d+)([a-z])/gi, '$1$2');
+  
+  return result;
+}
+
+function expandAndSimplify(expr) {
+  try {
+    // Convert superscripts before parsing
+    expr = convertSuperscriptsToStandard(expr);
+    let node = math.parse(expr);
+    
+    // First expand the expression
+    node = math.expand(node);
+    
+    // Then simplify it
+    node = math.simplify(node);
+    
+    let result = node.toString();
+    
+    // Try factorization
+    const factored = factorExpression(result);
+    
+    return factored;
+  } catch(e) {
+    return expr;
+  }
+}
+
+function derivative(expr) {
+  try {
+    // Convert superscripts before parsing
+    expr = convertSuperscriptsToStandard(expr);
+    const result = math.derivative(expr, 'x');
+    return result.toString();
+  } catch(e) {
+    return expr;
+  }
+}
+
+// Keyboard setup - Now includes 'x' and basic operators
+const keys = ['x', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹', '+', '-', 'ln(', 'e', '(', ')'];
+const expKeys = ['x', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹', '⁺', '⁻', 'ˣ', 'e', '^', '(', ')'];
+
+function setupKeyboard(inputId, kbId, customKeys = null) {
+  const input = document.getElementById(inputId);
+  const kb = document.getElementById(kbId);
+  if (!kb || !input) return;
+  
+  const keysToUse = customKeys || keys;
+  
+  kb.innerHTML = '';
+  keysToUse.forEach(k => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.innerText = k;
+    b.onclick = () => {
+      playClickSound();
+      const start = input.selectionStart || 0;
+      const end = input.selectionEnd || 0;
+      const val = input.value;
+      input.value = val.slice(0, start) + k + val.slice(end);
+      input.selectionStart = input.selectionEnd = start + k.length;
+      input.focus();
+    };
+    kb.appendChild(b);
+  });
+}
+
+window.addEventListener('DOMContentLoaded', function() {
+  setupKeyboard('generalInput', 'keyboard-general');
+  setupKeyboard('sumInput', 'keyboard-sum');
+  setupKeyboard('productInput', 'keyboard-product');
+  setupKeyboard('quotientInput', 'keyboard-quotient');
+  setupKeyboard('powerInput', 'keyboard-power');
+  setupKeyboard('nthInput', 'keyboard-nth');
+  setupKeyboard('expInput', 'keyboard-exp', expKeys);
+  setupKeyboard('logInput', 'keyboard-log');
+});
+
+// Add click sound to all main buttons
+document.addEventListener('DOMContentLoaded', function() {
+  const buttons = document.querySelectorAll('button:not(.keyboard button)');
+  buttons.forEach(btn => {
+    const originalOnClick = btn.onclick;
+    btn.onclick = function() {
+      playClickSound();
+      if (originalOnClick) originalOnClick.call(this);
+    };
+  });
+});
+
+// Differentiation functions
+function differentiateGeneral() {
+  const eq = document.getElementById('generalInput').value.trim();
+  if (!eq) {
+    document.getElementById('generalSteps').innerHTML = 'Please enter an expression.';
+    return;
+  }
+  
+  try {
+    const parsedEq = convertSuperscriptsToStandard(eq);
+    
+    const expanded = expandAndSimplify(parsedEq);
+    const result = derivative(parsedEq);
+    const simplified = expandAndSimplify(result);
+    
+    let output = '<div class="step-box">';
+    output += '<div class="step-title">Step 1: Original Expression</div>';
+    output += '<div class="step-content">y = ' + formatNicely(parsedEq) + '</div>';
+    output += '</div>';
+    
+    if (expanded !== parsedEq) {
+      output += '<div class="step-box">';
+      output += '<div class="step-title">Step 2: Expand Expression</div>';
+      output += '<div class="step-content">y = ' + formatNicely(expanded) + '</div>';
+      output += '</div>';
+    }
+    
+    output += '<div class="step-box">';
+    output += '<div class="step-title">Step ' + (expanded !== parsedEq ? '3' : '2') + ': Apply Differentiation Rules</div>';
+    output += '<div class="step-content">Using the power rule: d/dx(x<sup>n</sup>) = nx<sup>n-1</sup><br>';
+    output += 'dy/dx = ' + formatAsFraction(result) + '</div>';
+    output += '</div>';
+    
+    output += '<div class="step-box">';
+    output += '<div class="step-title">Step ' + (expanded !== parsedEq ? '4' : '3') + ': Simplify and Factor</div>';
+    output += '<div class="step-content">dy/dx = ' + formatAsFraction(simplified) + '</div>';
+    output += '</div>';
+    
+    output += '<div class="final-answer">';
+    output += '✅ Final Answer: dy/dx = ' + formatAsFraction(simplified);
+    output += '</div>';
+    
+    document.getElementById('generalSteps').innerHTML = output;
+  } catch(e) {
+    document.getElementById('generalSteps').innerHTML = 'Error: ' + e.message;
+  }
+}
+
+function sumRule() {
+  const eq = document.getElementById('sumInput').value.trim();
+  if (!eq) {
+    document.getElementById('sumSteps').innerHTML = 'Please enter an expression.';
+    return;
+  }
+  
+  try {
+    const parsedEq = convertSuperscriptsToStandard(eq);
+    
+    let output = '<div class="step-box">';
+    output += '<div class="step-title">📚 Sum Rule Formula</div>';
+    output += '<div class="step-content">If y = f(x) + g(x), then dy/dx = f\'(x) + g\'(x)</div>';
+    output += '</div>';
+    
+    output += '<div class="step-box">';
+    output += '<div class="step-title">Step 1: Identify Terms</div>';
+    output += '<div class="step-content">y = ' + formatNicely(parsedEq) + '</div>';
+    output += '</div>';
+    
+    const node = math.parse(parsedEq);
+    const terms = (node.type === 'OperatorNode' && node.op === '+') 
+      ? node.args.map(a => a.toString()) 
+      : [node.toString()];
+    
+    output += '<div class="step-box">';
+    output += '<div class="step-title">Step 2: Differentiate Each Term</div>';
+    output += '<div class="step-content">';
+    
+    const derivatives = [];
+    terms.forEach((term, i) => {
+      const d = derivative(term);
+      const simplified = expandAndSimplify(d);
+      derivatives.push(simplified);
+      output += `Term ${i+1}: d/dx[${formatNicely(term)}] = ${formatAsFraction(simplified)}<br>`;
+    });
+    
+    output += '</div></div>';
+    
+    output += '<div class="step-box">';
+    output += '<div class="step-title">Step 3: Add All Derivatives</div>';
+    output += '<div class="step-content">dy/dx = ' + derivatives.map(d => formatAsFraction(d)).join(' + ') + '</div>';
+    output += '</div>';
+    
+    const final = expandAndSimplify(derivatives.join('+'));
+    output += '<div class="step-box">';
+    output += '<div class="step-title">Step 4: Simplify and Factor</div>';
+    output += '<div class="step-content">dy/dx = ' + formatAsFraction(final) + '</div>';
+    output += '</div>';
+    
+    output += '<div class="final-answer">';
+    output += '✅ Final Answer: dy/dx = ' + formatAsFraction(final);
+    output += '</div>';
+    
+    document.getElementById('sumSteps').innerHTML = output;
+  } catch(e) {
+    document.getElementById('sumSteps').innerHTML = 'Error: ' + e.message;
+  }
+}
+
+function productRule() {
+  const raw = document.getElementById('productInput').value.replace(/\s/g, '');
+  const converted = convertSuperscriptsToStandard(raw);
+  const m = converted.match(/\((.+)\)\((.+)\)/);
+  
+  if (!m) {
+    document.getElementById('productSteps').innerHTML = 'Please use format (f)(g), e.g., (x^2)(sin(x))';
+    return;
+  }
+  
+  const f = m[1];
+  const g = m[2];
+  
+  try {
+    const fp = derivative(f);
+    const gp = derivative(g);
+    
+    let output = '<div class="step-box">';
+    output += '<div class="step-title">📚 Product Rule Formula</div>';
+    output += '<div class="step-content">If y = f(x) · g(x), then dy/dx = f\'(x) · g(x) + f(x) · g\'(x)</div>';
+    output += '</div>';
+    
+    output += '<div class="step-box">';
+    output += '<div class="step-title">Step 1: Identify Functions</div>';
+    output += '<div class="step-content">';
+    output += 'f(x) = ' + formatNicely(f) + '<br>';
+    output += 'g(x) = ' + formatNicely(g);
+    output += '</div></div>';
+    
+    output += '<div class="step-box">';
+    output += '<div class="step-title">Step 2: Find Derivatives</div>';
+    output += '<div class="step-content">';
+    output += 'f\'(x) = ' + formatAsFraction(fp) + '<br>';
+    output += 'g\'(x) = ' + formatAsFraction(gp);
+    output += '</div></div>';
+    
+    output += '<div class="step-box">';
+    output += '<div class="step-title">Step 3: Apply Product Rule</div>';
+    output += '<div class="step-content">';
+    output += 'dy/dx = f\'(x) · g(x) + f(x) · g\'(x)<br>';
+    output += 'dy/dx = [' + formatAsFraction(fp) + '][' + formatNicely(g) + '] + [' + formatNicely(f) + '][' + formatAsFraction(gp) + ']';
+    output += '</div></div>';
+    
+    const result = `(${fp})*(${g})+(${f})*(${gp})`;
+    const simplified = expandAndSimplify(result);
+    
+    output += '<div class="step-box">';
+    output += '<div class="step-title">Step 4: Expand and Simplify</div>';
+    output += '<div class="step-content">dy/dx = ' + formatAsFraction(simplified) + '</div>';
+    output += '</div>';
+    
+    output += '<div class="final-answer">';
+    output += '✅ Final Answer: dy/dx = ' + formatAsFraction(simplified);
+    output += '</div>';
+    
+    document.getElementById('productSteps').innerHTML = output;
+  } catch(e) {
+    document.getElementById('productSteps').innerHTML = 'Error: ' + e.message;
+  }
+}
+
+function quotientRule() {
+  const raw = document.getElementById('quotientInput').value.replace(/\s/g, '');
+  const converted = convertSuperscriptsToStandard(raw);
+  const parts = converted.split('/');
+  
+  if (parts.length !== 2) {
+    document.getElementById('quotientSteps').innerHTML = 'Please use format f/g, e.g., sin(x)/x';
+    return;
+  }
+  
+  const f = parts[0];
+  const g = parts[1];
+  
+  try {
+    const fp = derivative(f);
+    const gp = derivative(g);
+    
+    let output = '<div class="step-box">';
+    output += '<div class="step-title">📚 Quotient Rule Formula</div>';
+    output += '<div class="step-content">If y = f(x)/g(x), then dy/dx = [f\'(x) · g(x) - f(x) · g\'(x)] / [g(x)]<sup>2</sup></div>';
+    output += '</div>';
+    
+    output += '<div class="step-box">';
+    output += '<div class="step-title">Step 1: Identify Functions</div>';
+    output += '<div class="step-content">';
+    output += 'f(x) = ' + formatNicely(f) + ' (numerator)<br>';
+    output += 'g(x) = ' + formatNicely(g) + ' (denominator)';
+    output += '</div></div>';
+    
+    output += '<div class="step-box">';
+    output += '<div class="step-title">Step 2: Find Derivatives</div>';
+    output += '<div class="step-content">';
+    output += 'f\'(x) = ' + formatAsFraction(fp) + '<br>';
+    output += 'g\'(x) = ' + formatAsFraction(gp);
+    output += '</div></div>';
+    
+    output += '<div class="step-box">';
+    output += '<div class="step-title">Step 3: Apply Quotient Rule</div>';
+    output += '<div class="step-content">';
+    output += 'dy/dx = [f\'(x) · g(x) - f(x) · g\'(x)] / [g(x)]<sup>2</sup><br>';
+    output += 'dy/dx = [[' + formatAsFraction(fp) + '][' + formatNicely(g) + '] - [' + formatNicely(f) + '][' + formatAsFraction(gp) + ']] / [' + formatNicely(g) + ']<sup>2</sup>';
+    output += '</div></div>';
+    
+    const numerator = `(${fp})*(${g})-(${f})*(${gp})`;
+    const denominator = `(${g})^2`;
+    const numSimplified = expandAndSimplify(numerator);
+    const denSimplified = expandAndSimplify(denominator);
+    
+    output += '<div class="step-box">';
+    output += '<div class="step-title">Step 4: Expand and Simplify</div>';
+    output += '<div class="step-content">';
+    output += 'Numerator: ' + formatNicely(numSimplified) + '<br>';
+    output += 'Denominator: ' + formatNicely(denSimplified);
+    output += '</div></div>';
+    
+    output += '<div class="final-answer">';
+    output += '✅ Final Answer: dy/dx = <span class="fraction"><span class="numerator">' + formatNicely(numSimplified) + '</span><span class="denominator">' + formatNicely(denSimplified) + '</span></span>';
+    output += '</div>';
+    
+    document.getElementById('quotientSteps').innerHTML = output;
+  } catch(e) {
+    document.getElementById('quotientSteps').innerHTML = 'Error: ' + e.message;
+  }
+}
+
+function powerRule() {
+  const eq = document.getElementById('powerInput').value.trim();
+  if (!eq) {
+    document.getElementById('powerSteps').innerHTML = 'Please enter an expression.';
+    return;
+  }
+  
+  try {
+    const parsedEq = convertSuperscriptsToStandard(eq);
+    
+    let output = '<div class="step-box">';
+    output += '<div class="step-title">📚 Power Rule Formula</div>';
+    output += '<div class="step-content">If y = x<sup>n</sup>, then dy/dx = n · x<sup>n-1</sup></div>';
+    output += '</div>';
+    
+    output += '<div class="step-box">';
+    output += '<div class="step-title">Step 1: Original Expression</div>';
+    output += '<div class="step-content">y = ' + formatNicely(parsedEq) + '</div>';
+    output += '</div>';
+    
+    output += '<div class="step-box">';
+    output += '<div class="step-title">Step 2: Apply Power Rule</div>';
+    output += '<div class="step-content">';
+    output += 'Bring down the exponent and reduce it by 1';
+    output += '</div></div>';
+    
+    const result = derivative(parsedEq);
+    const simplified = expandAndSimplify(result);
+    
+    output += '<div class="step-box">';
+    output += '<div class="step-title">Step 3: Simplify</div>';
+    output += '<div class="step-content">dy/dx = ' + formatAsFraction(simplified) + '</div>';
+    output += '</div>';
+    
+    output += '<div class="final-answer">';
+    output += '✅ Final Answer: dy/dx = ' + formatAsFraction(simplified);
+    output += '</div>';
+    
+    document.getElementById('powerSteps').innerHTML = output;
+  } catch(e) {
+    document.getElementById('powerSteps').innerHTML = 'Error: ' + e.message;
+  }
+}
+
+function nthDiff() {
+  const eq = document.getElementById('nthInput').value.trim();
+  const n = parseInt(document.getElementById('nthSelect').value || '2', 10);
+  
+  if (!eq) {
+    document.getElementById('nthSteps').innerHTML = 'Please enter an expression.';
+    return;
+  }
+  
+  try {
+    const parsedEq = convertSuperscriptsToStandard(eq);
+    
+    let output = '<div class="step-box">';
+    output += '<div class="step-title">Original Expression</div>';
+    output += '<div class="step-content">y = ' + formatNicely(parsedEq) + '</div>';
+    output += '</div>';
+    
+    let current = parsedEq;
+    for (let i = 1; i <= n; i++) {
+      current = derivative(current);
+      current = expandAndSimplify(current);
+      
+      output += '<div class="step-box">';
+      output += '<div class="step-title">' + (i === 1 ? '1st' : i === 2 ? '2nd' : i === 3 ? '3rd' : i + 'th') + ' Derivative</div>';
+      output += '<div class="step-content">d<sup>' + i + '</sup>y/dx<sup>' + i + '</sup> = ' + formatAsFraction(current) + '</div>';
+      output += '</div>';
+    }
+    
+    output += '<div class="final-answer">';
+    output += '✅ Final Answer: d<sup>' + n + '</sup>y/dx<sup>' + n + '</sup> = ' + formatAsFraction(current);
+    output += '</div>';
+    
+    document.getElementById('nthSteps').innerHTML = output;
+  } catch(e) {
+    document.getElementById('nthSteps').innerHTML = 'Error: ' + e.message;
+  }
+}
+
+function expRule() {
+  const eq = document.getElementById('expInput').value.trim();
+  if (!eq) {
+    document.getElementById('expSteps').innerHTML = 'Please enter an expression.';
+    return;
+  }
+  
+  try {
+    const displayEq = eq;
+    const parsedEq = convertSuperscriptsToStandard(eq);
+    
+    let output = '<div class="step-box">';
+    output += '<div class="step-title">📚 Exponential Rule</div>';
+    output += '<div class="step-content">If y = e<sup>f(x)</sup>, then dy/dx = f\'(x) · e<sup>f(x)</sup></div>';
+    output += '</div>';
+    
+    output += '<div class="step-box">';
+    output += '<div class="step-title">Step 1: Original Expression</div>';
+    output += '<div class="step-content">y = ' + formatNicely(displayEq) + '</div>';
+    output += '</div>';
+    
+    // Parse to identify the exponent
+    const expMatch = parsedEq.match(/e\^?\((.+)\)|e\^(.+)/);
+    if (expMatch) {
+      const exponent = expMatch[1] || expMatch[2];
+      const exponentDeriv = derivative(exponent);
+      
+      output += '<div class="step-box">';
+      output += '<div class="step-title">Step 2: Identify f(x)</div>';
+      output += '<div class="step-content">f(x) = ' + formatNicely(exponent) + '</div>';
+      output += '</div>';
+      
+      output += '<div class="step-box">';
+      output += '<div class="step-title">Step 3: Find f\'(x)</div>';
+      output += '<div class="step-content">f\'(x) = ' + formatAsFraction(exponentDeriv) + '</div>';
+      output += '</div>';
+      
+      output += '<div class="step-box">';
+      output += '<div class="step-title">Step 4: Apply Exponential Rule</div>';
+      output += '<div class="step-content">dy/dx = f\'(x) · e<sup>f(x)</sup><br>';
+      output += 'dy/dx = [' + formatAsFraction(exponentDeriv) + '] · e<sup>' + formatNicely(exponent) + '</sup></div>';
+      output += '</div>';
+      
+      const result = `(${exponentDeriv})*e^(${exponent})`;
+      const simplified = expandAndSimplify(result);
+      
+      output += '<div class="step-box">';
+      output += '<div class="step-title">Step 5: Simplify</div>';
+      output += '<div class="step-content">dy/dx = ' + formatAsFraction(simplified) + '</div>';
+      output += '</div>';
+      
+      output += '<div class="final-answer">';
+      output += '✅ Final Answer: dy/dx = ' + formatAsFraction(simplified);
+      output += '</div>';
+    } else {
+      // Fallback to general derivative
+      const result = derivative(parsedEq);
+      const simplified = expandAndSimplify(result);
+      
+      output += '<div class="step-box">';
+      output += '<div class="step-title">Step 2: Apply Exponential Rule</div>';
+      output += '<div class="step-content">dy/dx = ' + formatAsFraction(simplified) + '</div>';
+      output += '</div>';
+      
+      output += '<div class="final-answer">';
+      output += '✅ Final Answer: dy/dx = ' + formatAsFraction(simplified);
+      output += '</div>';
+    }
+    
+    document.getElementById('expSteps').innerHTML = output;
+  } catch(e) {
+    document.getElementById('expSteps').innerHTML = 'Error: ' + e.message;
+  }
+}
+
+function logRule() {
+  const eq = document.getElementById('logInput').value.trim();
+  if (!eq) {
+    document.getElementById('logSteps').innerHTML = 'Please enter an expression.';
+    return;
+  }
+  
+  try {
+    const displayEq = eq;
+    const parsedEq = convertSuperscriptsToStandard(eq);
+    
+    let output = '<div class="step-box">';
+    output += '<div class="step-title">📚 Logarithmic Rule</div>';
+    output += '<div class="step-content">If y = ln[f(x)], then dy/dx = f\'(x) / f(x)</div>';
+    output += '</div>';
+    
+    output += '<div class="step-box">';
+    output += '<div class="step-title">Step 1: Original Expression</div>';
+    output += '<div class="step-content">y = ' + formatNicely(displayEq) + '</div>';
+    output += '</div>';
+    
+    // Parse to identify the argument
+    const logMatch = parsedEq.match(/ln\((.+)\)|log\((.+)\)/);
+    if (logMatch) {
+      const argument = logMatch[1] || logMatch[2];
+      const argumentDeriv = derivative(argument);
+      
+      output += '<div class="step-box">';
+      output += '<div class="step-title">Step 2: Identify f(x)</div>';
+      output += '<div class="step-content">f(x) = ' + formatNicely(argument) + '</div>';
+      output += '</div>';
+      
+      output += '<div class="step-box">';
+      output += '<div class="step-title">Step 3: Find f\'(x)</div>';
+      output += '<div class="step-content">f\'(x) = ' + formatAsFraction(argumentDeriv) + '</div>';
+      output += '</div>';
+      
+      output += '<div class="step-box">';
+      output += '<div class="step-title">Step 4: Apply Logarithmic Rule</div>';
+      output += '<div class="step-content">dy/dx = f\'(x) / f(x)<br>';
+      output += 'dy/dx = <span class="fraction"><span class="numerator">' + formatNicely(argumentDeriv) + '</span><span class="denominator">' + formatNicely(argument) + '</span></span></div>';
+      output += '</div>';
+      
+      const result = `(${argumentDeriv})/(${argument})`;
+      const simplified = expandAndSimplify(result);
+      
+      output += '<div class="step-box">';
+      output += '<div class="step-title">Step 5: Simplify</div>';
+      output += '<div class="step-content">dy/dx = ' + formatAsFraction(simplified) + '</div>';
+      output += '</div>';
+      
+      output += '<div class="final-answer">';
+      output += '✅ Final Answer: dy/dx = ' + formatAsFraction(simplified);
+      output += '</div>';
+    } else {
+      // Fallback to general derivative
+      const result = derivative(parsedEq);
+      const simplified = expandAndSimplify(result);
+      
+      output += '<div class="step-box">';
+      output += '<div class="step-title">Step 2: Apply Logarithmic Rule</div>';
+      output += '<div class="step-content">dy/dx = ' + formatAsFraction(simplified) + '</div>';
+      output += '</div>';
+      
+      output += '<div class="final-answer">';
+      output += '✅ Final Answer: dy/dx = ' + formatAsFraction(simplified);
+      output += '</div>';
+    }
+    
+    document.getElementById('logSteps').innerHTML = output;
+  } catch(e) {
+    document.getElementById('logSteps').innerHTML = 'Error: ' + e.message;
+  }
+}
+
+// ============================================
+// NEW ARCADE GAME: DERIVATIVE DEFENDER
+// ============================================
+
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+const gameInput = document.getElementById('gameInput');
+
+// Game state
+let gameState = {
+  isRunning: false,
+  isPaused: false,
+  score: 0,
+  level: 1,
+  combo: 0,
+  maxCombo: 0,
+  lives: 3,
+  equations: [],
+  powerUps: [],
+  particles: [],
+  correctAnswers: 0,
+  totalAttempts: 0,
+  lastSpawnTime: 0,
+  spawnInterval: 2000,
+  gameSpeed: 1,
+  slowMotionActive: false,
+  doublePointsActive: false,
+  usedQuestions: []
+};
+
+// Question generator based on difficulty - ONLY uses rules from the calculator above
+function generateQuestion(difficulty) {
+  const questionTypes = [];
+  
+  if (difficulty === 'easy') {
+    // Power rule - simple
+    questionTypes.push(() => {
+      const n = Math.floor(Math.random() * 4) + 1; // 1 to 4
+      return { q: `x^${n}`, a: n === 1 ? '1' : `${n}x^${n-1}` };
+    });
+    
+    // Power rule with coefficient
+    questionTypes.push(() => {
+      const coef = Math.floor(Math.random() * 5) + 2; // 2 to 6
+      const n = Math.floor(Math.random() * 3) + 1; // 1 to 3
+      return { q: `${coef}x^${n}`, a: n === 1 ? `${coef}` : `${coef*n}x^${n-1}` };
+    });
+    
+    // Constant
+    questionTypes.push(() => {
+      const c = Math.floor(Math.random() * 10) + 1;
+      return { q: `${c}`, a: '0' };
+    });
+    
+    // e^x
+    questionTypes.push(() => {
+      return { q: 'e^x', a: 'e^x' };
+    });
+    
+    // ln(x)
+    questionTypes.push(() => {
+      return { q: 'ln(x)', a: '1/x' };
+    });
+  } else if (difficulty === 'medium') {
+    // Higher powers
+    questionTypes.push(() => {
+      const n = Math.floor(Math.random() * 5) + 3; // 3 to 7
+      return { q: `x^${n}`, a: `${n}x^${n-1}` };
+    });
+    
+    // Sum rule - two terms
+    questionTypes.push(() => {
+      const n1 = Math.floor(Math.random() * 4) + 2;
+      const n2 = Math.floor(Math.random() * 3) + 1;
+      return { q: `x^${n1}+x^${n2}`, a: `${n1}x^${n1-1}+${n2}x^${n2-1}` };
+    });
+    
+    // Exponential with coefficient
+    questionTypes.push(() => {
+      const coef = Math.floor(Math.random() * 4) + 2;
+      return { q: `e^(${coef}x)`, a: `${coef}e^(${coef}x)` };
+    });
+    
+    // ln with power
+    questionTypes.push(() => {
+      const n = Math.floor(Math.random() * 3) + 2;
+      return { q: `ln(x^${n})`, a: `${n}/x` };
+    });
+    
+    // Product rule - simple
+    questionTypes.push(() => {
+      const n = Math.floor(Math.random() * 3) + 2;
+      return { q: `x*e^x`, a: `e^x+x*e^x` };
+    });
+  } else if (difficulty === 'hard') {
+    // Complex sum rule
+    questionTypes.push(() => {
+      const n1 = Math.floor(Math.random() * 5) + 3;
+      const n2 = Math.floor(Math.random() * 4) + 2;
+      const coef = Math.floor(Math.random() * 4) + 2;
+      return { q: `${coef}x^${n1}+x^${n2}`, a: `${coef*n1}x^${n1-1}+${n2}x^${n2-1}` };
+    });
+    
+    // Product rule
+    questionTypes.push(() => {
+      const n = Math.floor(Math.random() * 4) + 2;
+      return { q: `x^${n}*e^x`, a: `${n}x^${n-1}*e^x+x^${n}*e^x` };
+    });
+    
+    // Quotient rule - simple
+    questionTypes.push(() => {
+      const n = Math.floor(Math.random() * 3) + 2;
+      return { q: `x^${n}/x`, a: `${n-1}x^${n-2}` };
+    });
+    
+    // Exponential with power
+    questionTypes.push(() => {
+      const n = Math.floor(Math.random() * 3) + 2;
+      return { q: `e^(x^${n})`, a: `${n}x^${n-1}*e^(x^${n})` };
+    });
+    
+    // ln with sum
+    questionTypes.push(() => {
+      const a = Math.floor(Math.random() * 5) + 2;
+      const b = Math.floor(Math.random() * 5) + 1;
+      return { q: `ln(${a}x+${b})`, a: `${a}/(${a}x+${b})` };
+    });
+  } else { // insane
+    // Complex product rule
+    questionTypes.push(() => {
+      const n = Math.floor(Math.random() * 4) + 2;
+      const m = Math.floor(Math.random() * 3) + 2;
+      return { q: `x^${n}*ln(x)`, a: `${n}x^${n-1}*ln(x)+x^${n-1}` };
+    });
+    
+    // Complex quotient rule
+    questionTypes.push(() => {
+      const n = Math.floor(Math.random() * 4) + 2;
+      return { q: `e^x/x^${n}`, a: `(x^${n}*e^x-${n}x^${n-1}*e^x)/x^${2*n}` };
+    });
+    
+    // Nth derivative
+    questionTypes.push(() => {
+      const n = Math.floor(Math.random() * 5) + 4;
+      return { q: `x^${n}`, a: `${n}x^${n-1}` };
+    });
+    
+    // Complex exponential
+    questionTypes.push(() => {
+      const a = Math.floor(Math.random() * 4) + 2;
+      const b = Math.floor(Math.random() * 3) + 1;
+      return { q: `e^(${a}x^${b})`, a: `${a*b}x^${b-1}*e^(${a}x^${b})` };
+    });
+    
+    // Complex sum with exponential
+    questionTypes.push(() => {
+      const n = Math.floor(Math.random() * 4) + 2;
+      const coef = Math.floor(Math.random() * 4) + 2;
+      return { q: `x^${n}+${coef}e^x`, a: `${n}x^${n-1}+${coef}e^x` };
+    });
+  }
+  
+  // Select random question type and generate
+  const generator = questionTypes[Math.floor(Math.random() * questionTypes.length)];
+  return generator();
+}
+
+// Equation class
+class Equation {
+  constructor() {
+    const difficulty = document.getElementById('difficultySelect').value;
+    
+    // Generate unique question
+    let question;
+    let attempts = 0;
+    do {
+      question = generateQuestion(difficulty);
+      attempts++;
+    } while (gameState.usedQuestions.includes(question.q) && attempts < 50);
+    
+    // Add to used questions
+    gameState.usedQuestions.push(question.q);
+    
+    // Keep only last 20 questions to allow repetition after a while
+    if (gameState.usedQuestions.length > 20) {
+      gameState.usedQuestions.shift();
+    }
+    
+    this.question = question.q;
+    this.answer = question.a;
+    this.x = Math.random() * (canvas.width - 100) + 50;
+    this.y = -30;
+    this.speed = (0.5 + Math.random() * 0.5) * gameState.gameSpeed;
+    this.width = 120;
+    this.height = 40;
+    this.isActive = true;
+    this.color = `hsl(${Math.random() * 360}, 70%, 60%)`;
+  }
+  
+  update() {
+    if (!gameState.slowMotionActive) {
+      this.y += this.speed;
+    } else {
+      this.y += this.speed * 0.3;
+    }
+    
+    if (this.y > canvas.height) {
+      this.isActive = false;
+      loseLife();
+    }
+  }
+  
+  draw() {
+    // Draw shadow
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+    ctx.fillRect(this.x + 3, this.y + 3, this.width, this.height);
+    
+    // Draw equation box
+    ctx.fillStyle = this.color;
+    ctx.fillRect(this.x, this.y, this.width, this.height);
+    
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(this.x, this.y, this.width, this.height);
+    
+    // Draw text
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 18px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(this.question, this.x + this.width / 2, this.y + this.height / 2);
+  }
+}
+
+// Particle class for explosions
+class Particle {
+  constructor(x, y, color) {
+    this.x = x;
+    this.y = y;
+    this.vx = (Math.random() - 0.5) * 8;
+    this.vy = (Math.random() - 0.5) * 8;
+    this.life = 1;
+    this.color = color;
+    this.size = Math.random() * 4 + 2;
+  }
+  
+  update() {
+    this.x += this.vx;
+    this.y += this.vy;
+    this.vy += 0.2;
+    this.life -= 0.02;
+  }
+  
+  draw() {
+    ctx.globalAlpha = this.life;
+    ctx.fillStyle = this.color;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.globalAlpha = 1;
+  }
+}
+
+// Power-up class
+class PowerUp {
+  constructor(type) {
+    this.type = type; // 'slow', 'life', 'double'
+    this.x = Math.random() * (canvas.width - 40) + 20;
+    this.y = -30;
+    this.speed = 2;
+    this.size = 30;
+    this.isActive = true;
+    
+    this.colors = {
+      slow: '#3498db',
+      life: '#2ecc71',
+      double: '#f39c12'
+    };
+    
+    this.symbols = {
+      slow: '⚡',
+      life: '💚',
+      double: '🎯'
+    };
+  }
+  
+  update() {
+    this.y += this.speed;
+    if (this.y > canvas.height) {
+      this.isActive = false;
+    }
+  }
+  
+  draw() {
+    ctx.fillStyle = this.colors[this.type];
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
+    
+    ctx.fillStyle = '#fff';
+    ctx.font = '20px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(this.symbols[this.type], this.x, this.y);
+  }
+  
+  checkCollision(inputY) {
+    const distance = Math.sqrt((this.x - canvas.width / 2) ** 2 + (this.y - inputY) ** 2);
+    return distance < this.size + 20;
+  }
+}
+
+function startArcadeGame() {
+  gameState = {
+    isRunning: true,
+    isPaused: false,
+    score: 0,
+    level: 1,
+    combo: 0,
+    maxCombo: 0,
+    lives: 3,
+    equations: [],
+    powerUps: [],
+    particles: [],
+    correctAnswers: 0,
+    totalAttempts: 0,
+    lastSpawnTime: 0,
+    spawnInterval: 2000,
+    gameSpeed: 1,
+    slowMotionActive: false,
+    doublePointsActive: false,
+    usedQuestions: []
+  };
+  
+  gameInput.disabled = false;
+  gameInput.value = '';
+  gameInput.focus();
+  
+  updateStats();
+  gameLoop();
+}
+
+function pauseArcadeGame() {
+  if (gameState.isRunning) {
+    gameState.isPaused = !gameState.isPaused;
+    if (!gameState.isPaused) {
+      gameLoop();
+    }
+  }
+}
+
+function resetArcadeGame() {
+  gameState.isRunning = false;
+  gameState.isPaused = false;
+  gameInput.disabled = true;
+  gameInput.value = '';
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawStartScreen();
+}
+
+function gameLoop() {
+  if (!gameState.isRunning || gameState.isPaused) return;
+  
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
+  // Draw starfield background
+  drawStarfield();
+  
+  // Spawn equations
+  const now = Date.now();
+  if (now - gameState.lastSpawnTime > gameState.spawnInterval) {
+    gameState.equations.push(new Equation());
+    gameState.lastSpawnTime = now;
+    
+    // Occasionally spawn power-ups
+    if (Math.random() < 0.15) {
+      const types = ['slow', 'life', 'double'];
+      const type = types[Math.floor(Math.random() * types.length)];
+      gameState.powerUps.push(new PowerUp(type));
+    }
+  }
+  
+  // Update and draw equations
+  gameState.equations = gameState.equations.filter(eq => {
+    if (eq.isActive) {
+      eq.update();
+      eq.draw();
+      return true;
+    }
+    return false;
+  });
+  
+  // Update and draw power-ups
+  gameState.powerUps = gameState.powerUps.filter(pu => {
+    if (pu.isActive) {
+      pu.update();
+      pu.draw();
+      return true;
+    }
+    return false;
+  });
+  
+  // Update and draw particles
+  gameState.particles = gameState.particles.filter(p => {
+    if (p.life > 0) {
+      p.update();
+      p.draw();
+      return true;
+    }
+    return false;
+  });
+  
+  // Draw combo indicator
+  if (gameState.combo > 1) {
+    ctx.fillStyle = '#f39c12';
+    ctx.font = 'bold 30px Arial';
+    ctx.textAlign = 'right';
+    ctx.fillText(`${gameState.combo}x COMBO!`, canvas.width - 20, 40);
+  }
+  
+  // Draw active power-up indicators
+  let indicatorY = 80;
+  if (gameState.slowMotionActive) {
+    ctx.fillStyle = '#3498db';
+    ctx.font = '16px Arial';
+    ctx.textAlign = 'right';
+    ctx.fillText('⚡ SLOW MOTION', canvas.width - 20, indicatorY);
+    indicatorY += 25;
+  }
+  if (gameState.doublePointsActive) {
+    ctx.fillStyle = '#f39c12';
+    ctx.font = '16px Arial';
+    ctx.textAlign = 'right';
+    ctx.fillText('🎯 DOUBLE POINTS', canvas.width - 20, indicatorY);
+  }
+  
+  requestAnimationFrame(gameLoop);
+}
+
+function drawStarfield() {
+  ctx.fillStyle = '#fff';
+  for (let i = 0; i < 50; i++) {
+    const x = (i * 137.5) % canvas.width;
+    const y = (i * 217.3 + Date.now() * 0.05) % canvas.height;
+    const size = (i % 3) + 1;
+    ctx.fillRect(x, y, size, size);
+  }
+}
+
+function drawStartScreen() {
+  ctx.fillStyle = '#fff';
+  ctx.font = 'bold 40px Arial';
+  ctx.textAlign = 'center';
+  ctx.fillText('DERIVATIVE DEFENDER', canvas.width / 2, canvas.height / 2 - 50);
+  
+  ctx.font = '20px Arial';
+  ctx.fillText('Click START GAME to begin!', canvas.width / 2, canvas.height / 2 + 20);
+}
+
+function normalizeAnswer(answer) {
+  // Remove all spaces
+  let normalized = answer.toLowerCase().replace(/\s/g, '');
+  
+  // Remove multiplication signs
+  normalized = normalized.replace(/\*/g, '');
+  
+  // Normalize parentheses - remove unnecessary ones
+  normalized = normalized.replace(/\(([^()]+)\)/g, '$1');
+  
+  return normalized;
+}
+
+function checkAnswer() {
+  const userAnswer = gameInput.value.trim();
+  if (!userAnswer) return;
+  
+  gameState.totalAttempts++;
+  let found = false;
+  
+  const normalizedUserAnswer = normalizeAnswer(userAnswer);
+  
+  for (let i = 0; i < gameState.equations.length; i++) {
+    const eq = gameState.equations[i];
+    const normalizedCorrectAnswer = normalizeAnswer(eq.answer);
+    
+    if (normalizedUserAnswer === normalizedCorrectAnswer) {
+      found = true;
+      
+      // Create explosion
+      for (let j = 0; j < 20; j++) {
+        gameState.particles.push(new Particle(
+          eq.x + eq.width / 2,
+          eq.y + eq.height / 2,
+          eq.color
+        ));
+      }
+      
+      // Remove equation
+      gameState.equations.splice(i, 1);
+      
+      // Update score
+      gameState.correctAnswers++;
+      gameState.combo++;
+      if (gameState.combo > gameState.maxCombo) {
+        gameState.maxCombo = gameState.combo;
+      }
+      
+      let points = 10;
+      if (gameState.combo >= 5) points *= 5;
+      else if (gameState.combo >= 3) points *= 3;
+      else if (gameState.combo >= 2) points *= 2;
+      
+      if (gameState.doublePointsActive) points *= 2;
+      
+      gameState.score += points;
+      
+      // Level up
+      if (gameState.correctAnswers % 10 === 0) {
+        gameState.level++;
+        gameState.gameSpeed += 0.2;
+        gameState.spawnInterval = Math.max(800, gameState.spawnInterval - 150);
+      }
+      
+      playSuccessSound();
+      break;
+    }
+  }
+  
+  if (!found) {
+    gameState.combo = 0;
+    playErrorSound();
+  }
+  
+  gameInput.value = '';
+  updateStats();
+}
+
+function loseLife() {
+  gameState.lives--;
+  gameState.combo = 0;
+  playErrorSound();
+  updateStats();
+  
+  if (gameState.lives <= 0) {
+    endGame();
+  }
+}
+
+function updateStats() {
+  document.getElementById('gameScore').textContent = gameState.score;
+  document.getElementById('gameLevel').textContent = gameState.level;
+  document.getElementById('gameCombo').textContent = gameState.combo;
+  
+  const hearts = '❤️'.repeat(gameState.lives);
+  document.getElementById('gameLives').textContent = hearts || '💀';
+}
+
+function endGame() {
+  gameState.isRunning = false;
+  gameInput.disabled = true;
+  
+  const accuracy = gameState.totalAttempts > 0 
+    ? Math.round((gameState.correctAnswers / gameState.totalAttempts) * 100) 
+    : 0;
+  
+  document.getElementById('finalScore').textContent = gameState.score;
+  document.getElementById('finalLevel').textContent = gameState.level;
+  document.getElementById('finalCombo').textContent = gameState.maxCombo;
+  document.getElementById('finalAccuracy').textContent = accuracy + '%';
+  
+  document.getElementById('gameOverOverlay').style.display = 'flex';
+}
+
+function closeGameOver() {
+  document.getElementById('gameOverOverlay').style.display = 'none';
+  resetArcadeGame();
+}
+
+function playSuccessSound() {
+  initAudio();
+  const osc = audioContext.createOscillator();
+  const gain = audioContext.createGain();
+  
+  osc.connect(gain);
+  gain.connect(audioContext.destination);
+  
+  osc.frequency.value = 800;
+  osc.type = 'sine';
+  
+  gain.gain.setValueAtTime(0.2, audioContext.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+  
+  osc.start(audioContext.currentTime);
+  osc.stop(audioContext.currentTime + 0.2);
+}
+
+function playErrorSound() {
+  initAudio();
+  const osc = audioContext.createOscillator();
+  const gain = audioContext.createGain();
+  
+  osc.connect(gain);
+  gain.connect(audioContext.destination);
+  
+  osc.frequency.value = 200;
+  osc.type = 'sawtooth';
+  
+  gain.gain.setValueAtTime(0.15, audioContext.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+  
+  osc.start(audioContext.currentTime);
+  osc.stop(audioContext.currentTime + 0.3);
+}
+
+// Input handler - FIXED: Now properly attached and working
+gameInput.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && gameState.isRunning && !gameState.isPaused) {
+    e.preventDefault();
+    checkAnswer();
+  }
+});
+
+// Initialize
+drawStartScreen();
+</script>
+</body>
+</html>
