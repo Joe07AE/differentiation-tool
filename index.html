@@ -13,6 +13,14 @@ body {
   min-height: 100vh;
   padding: 20px;
 }
+
+/* Mobile-first responsive adjustments */
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+}
+
 .container { 
   max-width: 1200px; 
   margin: auto; 
@@ -21,6 +29,14 @@ body {
   border-radius: 20px; 
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 }
+
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+    border-radius: 15px;
+  }
+}
+
 h1 { 
   color: #667eea; 
   text-align: center; 
@@ -28,12 +44,27 @@ h1 {
   margin-bottom: 10px;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
 }
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.8em;
+  }
+}
+
 .subtitle {
   text-align: center;
   color: #666;
   margin-bottom: 30px;
   font-size: 1.1em;
 }
+
+@media (max-width: 768px) {
+  .subtitle {
+    font-size: 0.95em;
+    margin-bottom: 20px;
+  }
+}
+
 h2 { 
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
@@ -44,6 +75,14 @@ h2 {
   font-size: 1.3em;
   box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
 }
+
+@media (max-width: 768px) {
+  h2 {
+    font-size: 1.1em;
+    padding: 10px 15px;
+  }
+}
+
 .section { 
   margin-bottom: 25px; 
   padding: 20px; 
@@ -53,10 +92,19 @@ h2 {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
   transition: transform 0.2s;
 }
+
+@media (max-width: 768px) {
+  .section {
+    padding: 15px;
+    margin-bottom: 20px;
+  }
+}
+
 .section:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(102, 126, 234, 0.2);
 }
+
 input[type="text"] { 
   width: 100%; 
   padding: 14px; 
@@ -68,11 +116,20 @@ input[type="text"] {
   background: white;
   transition: border-color 0.3s;
 }
+
+@media (max-width: 768px) {
+  input[type="text"] {
+    padding: 12px;
+    font-size: 1em;
+  }
+}
+
 input[type="text"]:focus {
   outline: none;
   border-color: #667eea;
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
+
 button { 
   padding: 12px 24px; 
   background: linear-gradient(135deg, #10b981 0%, #059669 100%);
@@ -87,13 +144,25 @@ button {
   transition: all 0.3s;
   box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
 }
+
+@media (max-width: 768px) {
+  button {
+    padding: 10px 18px;
+    font-size: 0.95em;
+    margin-right: 5px;
+    margin-top: 5px;
+  }
+}
+
 button:hover { 
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
 }
+
 button:active {
   transform: translateY(0);
 }
+
 .steps { 
   margin-top: 15px; 
   padding: 20px; 
@@ -105,12 +174,29 @@ button:active {
   font-size: 1.05em;
   box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
 }
+
+@media (max-width: 768px) {
+  .steps {
+    padding: 15px;
+    font-size: 0.95em;
+    line-height: 1.6;
+  }
+}
+
 .keyboard { 
   display: flex; 
   gap: 8px; 
   margin-bottom: 12px; 
   flex-wrap: wrap; 
 }
+
+@media (max-width: 768px) {
+  .keyboard {
+    gap: 5px;
+    margin-bottom: 10px;
+  }
+}
+
 .keyboard button { 
   flex: 0 0 auto; 
   padding: 10px 16px; 
@@ -120,9 +206,19 @@ button:active {
   min-width: 50px;
   box-shadow: 0 3px 10px rgba(245, 158, 11, 0.3);
 }
+
+@media (max-width: 768px) {
+  .keyboard button {
+    padding: 8px 12px;
+    font-size: 1em;
+    min-width: 40px;
+  }
+}
+
 .keyboard button:hover {
   background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
 }
+
 .step-box {
   background: #f0f9ff;
   border-left: 4px solid #0ea5e9;
@@ -130,16 +226,31 @@ button:active {
   margin: 10px 0;
   border-radius: 6px;
 }
+
+@media (max-width: 768px) {
+  .step-box {
+    padding: 10px 12px;
+  }
+}
+
 .step-title {
   font-weight: bold;
   color: #0369a1;
   margin-bottom: 8px;
   font-size: 1.1em;
 }
+
+@media (max-width: 768px) {
+  .step-title {
+    font-size: 1em;
+  }
+}
+
 .step-content {
   color: #334155;
   line-height: 1.8;
 }
+
 .formula {
   background: #fef3c7;
   padding: 8px 12px;
@@ -149,6 +260,14 @@ button:active {
   font-family: 'Courier New', monospace;
   border: 1px solid #fcd34d;
 }
+
+@media (max-width: 768px) {
+  .formula {
+    padding: 6px 10px;
+    font-size: 0.9em;
+  }
+}
+
 .final-answer {
   background: linear-gradient(135deg, #10b981 0%, #059669 100%);
   color: white;
@@ -160,10 +279,19 @@ button:active {
   text-align: center;
   box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
 }
+
+@media (max-width: 768px) {
+  .final-answer {
+    padding: 12px 15px;
+    font-size: 1em;
+  }
+}
+
 sup {
   font-size: 0.7em;
   vertical-align: super;
 }
+
 .music-control {
   position: fixed;
   bottom: 20px;
@@ -178,15 +306,34 @@ sup {
   transition: all 0.3s;
   z-index: 1000;
 }
+
+@media (max-width: 768px) {
+  .music-control {
+    padding: 10px 15px;
+    font-size: 0.9em;
+    bottom: 10px;
+    right: 10px;
+  }
+}
+
 .music-control:hover {
   transform: scale(1.05);
   box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
 }
+
 .decoration {
   text-align: center;
   margin: 20px 0;
   font-size: 3em;
 }
+
+@media (max-width: 768px) {
+  .decoration {
+    font-size: 2em;
+    margin: 15px 0;
+  }
+}
+
 select {
   padding: 10px;
   border: 2px solid #c7d2fe;
@@ -196,25 +343,37 @@ select {
   background: white;
   cursor: pointer;
 }
+
+@media (max-width: 768px) {
+  select {
+    padding: 8px;
+    font-size: 0.95em;
+    margin-left: 5px;
+    margin-top: 5px;
+  }
+}
+
 .fraction {
   display: inline-block;
   vertical-align: middle;
   text-align: center;
   margin: 0 3px;
 }
+
 .fraction .numerator {
   display: block;
   border-bottom: 2px solid #000;
   padding: 0 5px 2px 5px;
   min-width: 20px;
 }
+
 .fraction .denominator {
   display: block;
   padding: 2px 5px 0 5px;
   min-width: 20px;
 }
 
-/* NEW GAME STYLES */
+/* GAME STYLES - Mobile Responsive */
 #gameCanvas {
   display: block;
   margin: 20px auto;
@@ -222,6 +381,15 @@ select {
   border-radius: 15px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
   cursor: crosshair;
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  #gameCanvas {
+    border-radius: 10px;
+    margin: 15px auto;
+  }
 }
 
 .game-controls {
@@ -232,11 +400,25 @@ select {
   flex-wrap: wrap;
 }
 
+@media (max-width: 768px) {
+  .game-controls {
+    gap: 8px;
+    margin: 15px 0;
+  }
+}
+
 .game-controls button {
   background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
   font-size: 1.1em;
   padding: 15px 30px;
   box-shadow: 0 5px 20px rgba(231, 76, 60, 0.4);
+}
+
+@media (max-width: 768px) {
+  .game-controls button {
+    font-size: 0.95em;
+    padding: 10px 18px;
+  }
 }
 
 .game-controls button:hover {
@@ -253,11 +435,28 @@ select {
   color: white;
   font-size: 1.2em;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .game-stats {
+    padding: 15px 10px;
+    font-size: 1em;
+    margin: 15px 0;
+  }
 }
 
 .stat-item {
   text-align: center;
   padding: 10px 20px;
+}
+
+@media (max-width: 768px) {
+  .stat-item {
+    padding: 8px 10px;
+    flex: 1 1 45%;
+    min-width: 120px;
+  }
 }
 
 .stat-value {
@@ -267,10 +466,22 @@ select {
   text-shadow: 0 2px 10px rgba(243, 156, 18, 0.5);
 }
 
+@media (max-width: 768px) {
+  .stat-value {
+    font-size: 1.5em;
+  }
+}
+
 .stat-label {
   font-size: 0.9em;
   color: #bdc3c7;
   margin-top: 5px;
+}
+
+@media (max-width: 768px) {
+  .stat-label {
+    font-size: 0.8em;
+  }
 }
 
 .difficulty-selector {
@@ -278,10 +489,24 @@ select {
   margin: 15px 0;
 }
 
+@media (max-width: 768px) {
+  .difficulty-selector {
+    margin: 10px 0;
+  }
+}
+
 .difficulty-selector label {
   font-weight: bold;
   margin-right: 10px;
   color: #2c3e50;
+}
+
+@media (max-width: 768px) {
+  .difficulty-selector label {
+    display: block;
+    margin-bottom: 8px;
+    margin-right: 0;
+  }
 }
 
 .difficulty-selector select {
@@ -292,6 +517,15 @@ select {
   background: white;
   cursor: pointer;
   transition: all 0.3s;
+}
+
+@media (max-width: 768px) {
+  .difficulty-selector select {
+    padding: 10px 15px;
+    font-size: 1em;
+    width: 100%;
+    max-width: 300px;
+  }
 }
 
 .difficulty-selector select:hover {
@@ -310,6 +544,7 @@ select {
   justify-content: center;
   align-items: center;
   z-index: 2000;
+  padding: 20px;
 }
 
 .game-over-content {
@@ -320,6 +555,14 @@ select {
   color: white;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
   animation: popIn 0.5s ease-out;
+  max-width: 90%;
+}
+
+@media (max-width: 768px) {
+  .game-over-content {
+    padding: 25px 20px;
+    border-radius: 15px;
+  }
 }
 
 @keyframes popIn {
@@ -333,6 +576,13 @@ select {
   text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
+@media (max-width: 768px) {
+  .game-over-content h2 {
+    font-size: 2em;
+    margin-bottom: 15px;
+  }
+}
+
 .game-over-content .final-score {
   font-size: 2.5em;
   color: #f39c12;
@@ -340,10 +590,24 @@ select {
   text-shadow: 0 2px 10px rgba(243, 156, 18, 0.5);
 }
 
+@media (max-width: 768px) {
+  .game-over-content .final-score {
+    font-size: 1.8em;
+    margin: 15px 0;
+  }
+}
+
 .game-over-content button {
   margin-top: 20px;
   font-size: 1.3em;
   padding: 15px 40px;
+}
+
+@media (max-width: 768px) {
+  .game-over-content button {
+    font-size: 1.1em;
+    padding: 12px 30px;
+  }
 }
 
 .power-up {
@@ -373,6 +637,58 @@ select {
 @keyframes comboGlow {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.3); }
+}
+
+/* Game keyboard styles */
+.game-keyboard {
+  display: flex;
+  gap: 6px;
+  margin: 15px auto;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 600px;
+}
+
+@media (max-width: 768px) {
+  .game-keyboard {
+    gap: 4px;
+    margin: 10px auto;
+    max-width: 100%;
+  }
+}
+
+.game-keyboard button {
+  flex: 0 0 auto;
+  padding: 8px 14px;
+  font-size: 1em;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 6px;
+  min-width: 45px;
+  box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
+}
+
+@media (max-width: 768px) {
+  .game-keyboard button {
+    padding: 6px 10px;
+    font-size: 0.9em;
+    min-width: 38px;
+  }
+}
+
+.game-keyboard button:hover {
+  background: linear-gradient(135deg, #7c8ef0 0%, #8b5bb5 100%);
+}
+
+/* Info box responsive */
+.section > div[style*="background: #fff3cd"] {
+  font-size: 0.95em;
+}
+
+@media (max-width: 768px) {
+  .section > div[style*="background: #fff3cd"] {
+    font-size: 0.85em;
+    padding: 12px !important;
+  }
 }
 </style>
 </head>
@@ -493,8 +809,10 @@ select {
 
   <div style="text-align: center; margin: 15px 0;">
     <input type="text" id="gameInput" placeholder="Type the derivative here..." 
-           style="width: 60%; font-size: 1.2em; text-align: center;" disabled>
+           style="width: 90%; max-width: 500px; font-size: 1.2em; text-align: center;" disabled>
   </div>
+
+  <div class="game-keyboard" id="keyboard-game"></div>
 
   <div class="game-controls">
     <button onclick="startArcadeGame()">🚀 START GAME</button>
@@ -507,8 +825,8 @@ select {
     • Equations fall from the top - type their derivatives to destroy them!<br>
     • Build combos by answering correctly in a row (2x, 3x, 5x multipliers!)<br>
     • Don't let equations reach the bottom or you lose a life!<br>
-    • Collect power-ups: ⚡ Slow Time, 💚 Extra Life, 🎯 Double Points<br>
-    • Level up every 10 correct answers - speed increases!
+    • Collect power-ups by typing "power" when they appear on screen: ⚡ Slow Time, 💚 Extra Life, 🎯 Double Points<br>
+    • Level up every 10 correct answers - speed and complexity increases!
   </div>
 </div>
 
@@ -707,6 +1025,22 @@ function convertSuperscriptsToStandard(str) {
   return result;
 }
 
+// Convert standard notation to superscript for display
+function convertToSuperscript(str) {
+  const standardToSuperscript = {
+    '0': '⁰', '1': '¹', '2': '²', '3': '³', '4': '⁴',
+    '5': '⁵', '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹'
+  };
+  
+  let result = String(str);
+  // Convert x^n to x with superscript n
+  result = result.replace(/\^(\d+)/g, (match, digit) => {
+    return digit.split('').map(d => standardToSuperscript[d] || d).join('');
+  });
+  
+  return result;
+}
+
 // GCD function for factorization
 function gcd(a, b) {
   a = Math.abs(a);
@@ -878,6 +1212,7 @@ function derivative(expr) {
 // Keyboard setup - Now includes 'x' and basic operators
 const keys = ['x', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹', '+', '-', 'ln(', 'e', '(', ')'];
 const expKeys = ['x', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹', '⁺', '⁻', 'ˣ', 'e', '^', '(', ')'];
+const gameKeys = ['¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹', '⁰', 'x', '+', '-', '/', '*', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
 function setupKeyboard(inputId, kbId, customKeys = null) {
   const input = document.getElementById(inputId);
@@ -913,11 +1248,26 @@ window.addEventListener('DOMContentLoaded', function() {
   setupKeyboard('nthInput', 'keyboard-nth');
   setupKeyboard('expInput', 'keyboard-exp', expKeys);
   setupKeyboard('logInput', 'keyboard-log');
+  setupKeyboard('gameInput', 'keyboard-game', gameKeys);
+  
+  // Responsive canvas setup
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
 });
+
+function resizeCanvas() {
+  const canvas = document.getElementById('gameCanvas');
+  const container = canvas.parentElement;
+  const maxWidth = Math.min(800, container.clientWidth - 30);
+  const aspectRatio = 600 / 800;
+  
+  canvas.style.width = maxWidth + 'px';
+  canvas.style.height = (maxWidth * aspectRatio) + 'px';
+}
 
 // Add click sound to all main buttons
 document.addEventListener('DOMContentLoaded', function() {
-  const buttons = document.querySelectorAll('button:not(.keyboard button)');
+  const buttons = document.querySelectorAll('button:not(.keyboard button):not(.game-keyboard button)');
   buttons.forEach(btn => {
     const originalOnClick = btn.onclick;
     btn.onclick = function() {
@@ -1394,7 +1744,7 @@ function logRule() {
 }
 
 // ============================================
-// NEW ARCADE GAME: DERIVATIVE DEFENDER
+// ARCADE GAME: DERIVATIVE DEFENDER
 // ============================================
 
 const canvas = document.getElementById('gameCanvas');
@@ -1416,29 +1766,30 @@ let gameState = {
   correctAnswers: 0,
   totalAttempts: 0,
   lastSpawnTime: 0,
-  spawnInterval: 2000,
+  spawnInterval: 3000,
   gameSpeed: 1,
   slowMotionActive: false,
   doublePointsActive: false,
-  usedQuestions: []
+  usedQuestions: [],
+  maxEquations: 3
 };
 
-// Question generator based on difficulty - ONLY uses rules from the calculator above
+// Question generator based on difficulty - NO LOGARITHMIC OR EXPONENTIAL
 function generateQuestion(difficulty) {
   const questionTypes = [];
   
   if (difficulty === 'easy') {
     // Power rule - simple
     questionTypes.push(() => {
-      const n = Math.floor(Math.random() * 4) + 1; // 1 to 4
-      return { q: `x^${n}`, a: n === 1 ? '1' : `${n}x^${n-1}` };
+      const n = Math.floor(Math.random() * 4) + 1;
+      return { q: `x${convertToSuperscript('^' + n)}`, a: n === 1 ? '1' : `${n}x${n > 1 ? convertToSuperscript('^' + (n-1)) : ''}` };
     });
     
     // Power rule with coefficient
     questionTypes.push(() => {
-      const coef = Math.floor(Math.random() * 5) + 2; // 2 to 6
-      const n = Math.floor(Math.random() * 3) + 1; // 1 to 3
-      return { q: `${coef}x^${n}`, a: n === 1 ? `${coef}` : `${coef*n}x^${n-1}` };
+      const coef = Math.floor(Math.random() * 5) + 2;
+      const n = Math.floor(Math.random() * 3) + 1;
+      return { q: `${coef}x${convertToSuperscript('^' + n)}`, a: n === 1 ? `${coef}` : `${coef*n}x${n > 1 ? convertToSuperscript('^' + (n-1)) : ''}` };
     });
     
     // Constant
@@ -1447,45 +1798,37 @@ function generateQuestion(difficulty) {
       return { q: `${c}`, a: '0' };
     });
     
-    // e^x
+    // Simple x
     questionTypes.push(() => {
-      return { q: 'e^x', a: 'e^x' };
-    });
-    
-    // ln(x)
-    questionTypes.push(() => {
-      return { q: 'ln(x)', a: '1/x' };
+      return { q: 'x', a: '1' };
     });
   } else if (difficulty === 'medium') {
     // Higher powers
     questionTypes.push(() => {
-      const n = Math.floor(Math.random() * 5) + 3; // 3 to 7
-      return { q: `x^${n}`, a: `${n}x^${n-1}` };
+      const n = Math.floor(Math.random() * 5) + 3;
+      return { q: `x${convertToSuperscript('^' + n)}`, a: `${n}x${convertToSuperscript('^' + (n-1))}` };
     });
     
     // Sum rule - two terms
     questionTypes.push(() => {
       const n1 = Math.floor(Math.random() * 4) + 2;
       const n2 = Math.floor(Math.random() * 3) + 1;
-      return { q: `x^${n1}+x^${n2}`, a: `${n1}x^${n1-1}+${n2}x^${n2-1}` };
+      return { q: `x${convertToSuperscript('^' + n1)}+x${convertToSuperscript('^' + n2)}`, a: `${n1}x${convertToSuperscript('^' + (n1-1))}+${n2}x${n2 > 1 ? convertToSuperscript('^' + (n2-1)) : ''}` };
     });
     
-    // Exponential with coefficient
+    // Power with coefficient
     questionTypes.push(() => {
       const coef = Math.floor(Math.random() * 4) + 2;
-      return { q: `e^(${coef}x)`, a: `${coef}e^(${coef}x)` };
+      const n = Math.floor(Math.random() * 4) + 2;
+      return { q: `${coef}x${convertToSuperscript('^' + n)}`, a: `${coef*n}x${convertToSuperscript('^' + (n-1))}` };
     });
     
-    // ln with power
+    // Sum with coefficients
     questionTypes.push(() => {
-      const n = Math.floor(Math.random() * 3) + 2;
-      return { q: `ln(x^${n})`, a: `${n}/x` };
-    });
-    
-    // Product rule - simple
-    questionTypes.push(() => {
-      const n = Math.floor(Math.random() * 3) + 2;
-      return { q: `x*e^x`, a: `e^x+x*e^x` };
+      const coef1 = Math.floor(Math.random() * 3) + 2;
+      const n1 = Math.floor(Math.random() * 3) + 2;
+      const coef2 = Math.floor(Math.random() * 3) + 1;
+      return { q: `${coef1}x${convertToSuperscript('^' + n1)}+${coef2}x`, a: `${coef1*n1}x${convertToSuperscript('^' + (n1-1))}+${coef2}` };
     });
   } else if (difficulty === 'hard') {
     // Complex sum rule
@@ -1493,69 +1836,49 @@ function generateQuestion(difficulty) {
       const n1 = Math.floor(Math.random() * 5) + 3;
       const n2 = Math.floor(Math.random() * 4) + 2;
       const coef = Math.floor(Math.random() * 4) + 2;
-      return { q: `${coef}x^${n1}+x^${n2}`, a: `${coef*n1}x^${n1-1}+${n2}x^${n2-1}` };
+      return { q: `${coef}x${convertToSuperscript('^' + n1)}+x${convertToSuperscript('^' + n2)}`, a: `${coef*n1}x${convertToSuperscript('^' + (n1-1))}+${n2}x${convertToSuperscript('^' + (n2-1))}` };
     });
     
-    // Product rule
+    // Three terms
     questionTypes.push(() => {
-      const n = Math.floor(Math.random() * 4) + 2;
-      return { q: `x^${n}*e^x`, a: `${n}x^${n-1}*e^x+x^${n}*e^x` };
+      const n1 = Math.floor(Math.random() * 4) + 3;
+      const n2 = Math.floor(Math.random() * 3) + 2;
+      const c = Math.floor(Math.random() * 5) + 1;
+      return { q: `x${convertToSuperscript('^' + n1)}+x${convertToSuperscript('^' + n2)}+${c}`, a: `${n1}x${convertToSuperscript('^' + (n1-1))}+${n2}x${n2 > 1 ? convertToSuperscript('^' + (n2-1)) : ''}` };
     });
     
-    // Quotient rule - simple
+    // Higher coefficients
     questionTypes.push(() => {
-      const n = Math.floor(Math.random() * 3) + 2;
-      return { q: `x^${n}/x`, a: `${n-1}x^${n-2}` };
-    });
-    
-    // Exponential with power
-    questionTypes.push(() => {
-      const n = Math.floor(Math.random() * 3) + 2;
-      return { q: `e^(x^${n})`, a: `${n}x^${n-1}*e^(x^${n})` };
-    });
-    
-    // ln with sum
-    questionTypes.push(() => {
-      const a = Math.floor(Math.random() * 5) + 2;
-      const b = Math.floor(Math.random() * 5) + 1;
-      return { q: `ln(${a}x+${b})`, a: `${a}/(${a}x+${b})` };
+      const coef = Math.floor(Math.random() * 6) + 3;
+      const n = Math.floor(Math.random() * 5) + 3;
+      return { q: `${coef}x${convertToSuperscript('^' + n)}`, a: `${coef*n}x${convertToSuperscript('^' + (n-1))}` };
     });
   } else { // insane
-    // Complex product rule
+    // Very complex sums
     questionTypes.push(() => {
-      const n = Math.floor(Math.random() * 4) + 2;
-      const m = Math.floor(Math.random() * 3) + 2;
-      return { q: `x^${n}*ln(x)`, a: `${n}x^${n-1}*ln(x)+x^${n-1}` };
+      const coef1 = Math.floor(Math.random() * 5) + 2;
+      const n1 = Math.floor(Math.random() * 6) + 4;
+      const coef2 = Math.floor(Math.random() * 4) + 2;
+      const n2 = Math.floor(Math.random() * 4) + 2;
+      return { q: `${coef1}x${convertToSuperscript('^' + n1)}+${coef2}x${convertToSuperscript('^' + n2)}`, a: `${coef1*n1}x${convertToSuperscript('^' + (n1-1))}+${coef2*n2}x${convertToSuperscript('^' + (n2-1))}` };
     });
     
-    // Complex quotient rule
+    // Four terms
     questionTypes.push(() => {
-      const n = Math.floor(Math.random() * 4) + 2;
-      return { q: `e^x/x^${n}`, a: `(x^${n}*e^x-${n}x^${n-1}*e^x)/x^${2*n}` };
+      const n1 = Math.floor(Math.random() * 5) + 4;
+      const n2 = Math.floor(Math.random() * 4) + 3;
+      const n3 = Math.floor(Math.random() * 3) + 2;
+      const c = Math.floor(Math.random() * 10) + 1;
+      return { q: `x${convertToSuperscript('^' + n1)}+x${convertToSuperscript('^' + n2)}+x${convertToSuperscript('^' + n3)}+${c}`, a: `${n1}x${convertToSuperscript('^' + (n1-1))}+${n2}x${convertToSuperscript('^' + (n2-1))}+${n3}x${n3 > 1 ? convertToSuperscript('^' + (n3-1)) : ''}` };
     });
     
-    // Nth derivative
+    // Very high powers
     questionTypes.push(() => {
-      const n = Math.floor(Math.random() * 5) + 4;
-      return { q: `x^${n}`, a: `${n}x^${n-1}` };
-    });
-    
-    // Complex exponential
-    questionTypes.push(() => {
-      const a = Math.floor(Math.random() * 4) + 2;
-      const b = Math.floor(Math.random() * 3) + 1;
-      return { q: `e^(${a}x^${b})`, a: `${a*b}x^${b-1}*e^(${a}x^${b})` };
-    });
-    
-    // Complex sum with exponential
-    questionTypes.push(() => {
-      const n = Math.floor(Math.random() * 4) + 2;
-      const coef = Math.floor(Math.random() * 4) + 2;
-      return { q: `x^${n}+${coef}e^x`, a: `${n}x^${n-1}+${coef}e^x` };
+      const n = Math.floor(Math.random() * 8) + 6;
+      return { q: `x${convertToSuperscript('^' + n)}`, a: `${n}x${convertToSuperscript('^' + (n-1))}` };
     });
   }
   
-  // Select random question type and generate
   const generator = questionTypes[Math.floor(Math.random() * questionTypes.length)];
   return generator();
 }
@@ -1565,7 +1888,6 @@ class Equation {
   constructor() {
     const difficulty = document.getElementById('difficultySelect').value;
     
-    // Generate unique question
     let question;
     let attempts = 0;
     do {
@@ -1573,23 +1895,55 @@ class Equation {
       attempts++;
     } while (gameState.usedQuestions.includes(question.q) && attempts < 50);
     
-    // Add to used questions
     gameState.usedQuestions.push(question.q);
     
-    // Keep only last 20 questions to allow repetition after a while
     if (gameState.usedQuestions.length > 20) {
       gameState.usedQuestions.shift();
     }
     
     this.question = question.q;
     this.answer = question.a;
-    this.x = Math.random() * (canvas.width - 100) + 50;
-    this.y = -30;
-    this.speed = (0.5 + Math.random() * 0.5) * gameState.gameSpeed;
-    this.width = 120;
-    this.height = 40;
+    
+    // Ensure equations don't overlap and stay within bounds
+    this.width = 160;
+    this.height = 50;
+    this.x = this.findNonOverlappingX();
+    this.y = -80;  // Start even higher to ensure visibility
+    this.speed = (0.5 + Math.random() * 0.3) * gameState.gameSpeed;
     this.isActive = true;
     this.color = `hsl(${Math.random() * 360}, 70%, 60%)`;
+  }
+  
+  findNonOverlappingX() {
+    const margin = 40;
+    const maxAttempts = 100;
+    const minX = margin;
+    const maxX = canvas.width - this.width - margin;
+    
+    for (let attempt = 0; attempt < maxAttempts; attempt++) {
+      const x = Math.random() * (maxX - minX) + minX;
+      let overlaps = false;
+      
+      for (let eq of gameState.equations) {
+        const dx = Math.abs(x - eq.x);
+        const dy = Math.abs(this.y - eq.y);
+        
+        // Increased spacing to prevent overlap
+        if (dx < this.width + margin * 2 && dy < this.height + 60) {
+          overlaps = true;
+          break;
+        }
+      }
+      
+      if (!overlaps) {
+        return x;
+      }
+    }
+    
+    // If no non-overlapping position found, spread horizontally
+    const index = gameState.equations.length;
+    const spacing = canvas.width / (gameState.maxEquations + 1);
+    return spacing * (index + 1) - this.width / 2;
   }
   
   update() {
@@ -1606,24 +1960,31 @@ class Equation {
   }
   
   draw() {
-    // Draw shadow
+    // Shadow
     ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
     ctx.fillRect(this.x + 3, this.y + 3, this.width, this.height);
     
-    // Draw equation box
-    ctx.fillStyle = this.color;
+    // Box with gradient
+    const gradient = ctx.createLinearGradient(this.x, this.y, this.x, this.y + this.height);
+    gradient.addColorStop(0, this.color);
+    gradient.addColorStop(1, this.color.replace('60%', '50%'));
+    ctx.fillStyle = gradient;
     ctx.fillRect(this.x, this.y, this.width, this.height);
     
+    // Border
     ctx.strokeStyle = '#fff';
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 3;
     ctx.strokeRect(this.x, this.y, this.width, this.height);
     
-    // Draw text
+    // Text
     ctx.fillStyle = '#fff';
-    ctx.font = 'bold 18px Arial';
+    ctx.font = 'bold 20px Arial';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+    ctx.shadowBlur = 4;
     ctx.fillText(this.question, this.x + this.width / 2, this.y + this.height / 2);
+    ctx.shadowBlur = 0;
   }
 }
 
@@ -1659,11 +2020,11 @@ class Particle {
 // Power-up class
 class PowerUp {
   constructor(type) {
-    this.type = type; // 'slow', 'life', 'double'
-    this.x = Math.random() * (canvas.width - 40) + 20;
+    this.type = type;
+    this.x = Math.random() * (canvas.width - 60) + 30;
     this.y = -30;
-    this.speed = 2;
-    this.size = 30;
+    this.speed = 1.5;
+    this.size = 35;
     this.isActive = true;
     
     this.colors = {
@@ -1687,25 +2048,49 @@ class PowerUp {
   }
   
   draw() {
+    // Glow effect
+    ctx.shadowColor = this.colors[this.type];
+    ctx.shadowBlur = 15;
+    
     ctx.fillStyle = this.colors[this.type];
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
     ctx.fill();
     
+    ctx.shadowBlur = 0;
+    
     ctx.fillStyle = '#fff';
-    ctx.font = '20px Arial';
+    ctx.font = 'bold 24px Arial';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText(this.symbols[this.type], this.x, this.y);
   }
   
-  checkCollision(inputY) {
-    const distance = Math.sqrt((this.x - canvas.width / 2) ** 2 + (this.y - inputY) ** 2);
-    return distance < this.size + 20;
+  checkCollision() {
+    return this.y > 0;  // Can collect as soon as it appears
   }
 }
 
 function startArcadeGame() {
+  const difficulty = document.getElementById('difficultySelect').value;
+  
+  let maxEq = 3;
+  let interval = 3000;
+  
+  if (difficulty === 'easy') {
+    maxEq = 2;
+    interval = 4500;
+  } else if (difficulty === 'medium') {
+    maxEq = 3;
+    interval = 3500;
+  } else if (difficulty === 'hard') {
+    maxEq = 4;
+    interval = 2800;
+  } else {
+    maxEq = 5;
+    interval = 2200;
+  }
+  
   gameState = {
     isRunning: true,
     isPaused: false,
@@ -1720,11 +2105,12 @@ function startArcadeGame() {
     correctAnswers: 0,
     totalAttempts: 0,
     lastSpawnTime: 0,
-    spawnInterval: 2000,
+    spawnInterval: interval,
     gameSpeed: 1,
     slowMotionActive: false,
     doublePointsActive: false,
-    usedQuestions: []
+    usedQuestions: [],
+    maxEquations: maxEq
   };
   
   gameInput.disabled = false;
@@ -1758,24 +2144,20 @@ function gameLoop() {
   
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   
-  // Draw starfield background
   drawStarfield();
   
-  // Spawn equations
   const now = Date.now();
-  if (now - gameState.lastSpawnTime > gameState.spawnInterval) {
+  if (now - gameState.lastSpawnTime > gameState.spawnInterval && gameState.equations.length < gameState.maxEquations) {
     gameState.equations.push(new Equation());
     gameState.lastSpawnTime = now;
     
-    // Occasionally spawn power-ups
-    if (Math.random() < 0.15) {
+    if (Math.random() < 0.12) {
       const types = ['slow', 'life', 'double'];
       const type = types[Math.floor(Math.random() * types.length)];
       gameState.powerUps.push(new PowerUp(type));
     }
   }
   
-  // Update and draw equations
   gameState.equations = gameState.equations.filter(eq => {
     if (eq.isActive) {
       eq.update();
@@ -1785,7 +2167,6 @@ function gameLoop() {
     return false;
   });
   
-  // Update and draw power-ups
   gameState.powerUps = gameState.powerUps.filter(pu => {
     if (pu.isActive) {
       pu.update();
@@ -1795,7 +2176,6 @@ function gameLoop() {
     return false;
   });
   
-  // Update and draw particles
   gameState.particles = gameState.particles.filter(p => {
     if (p.life > 0) {
       p.update();
@@ -1805,7 +2185,6 @@ function gameLoop() {
     return false;
   });
   
-  // Draw combo indicator
   if (gameState.combo > 1) {
     ctx.fillStyle = '#f39c12';
     ctx.font = 'bold 30px Arial';
@@ -1813,7 +2192,6 @@ function gameLoop() {
     ctx.fillText(`${gameState.combo}x COMBO!`, canvas.width - 20, 40);
   }
   
-  // Draw active power-up indicators
   let indicatorY = 80;
   if (gameState.slowMotionActive) {
     ctx.fillStyle = '#3498db';
@@ -1853,21 +2231,23 @@ function drawStartScreen() {
 }
 
 function normalizeAnswer(answer) {
-  // Remove all spaces
   let normalized = answer.toLowerCase().replace(/\s/g, '');
-  
   // Remove multiplication signs
   normalized = normalized.replace(/\*/g, '');
-  
-  // Normalize parentheses - remove unnecessary ones
+  // Remove unnecessary parentheses
   normalized = normalized.replace(/\(([^()]+)\)/g, '$1');
-  
   return normalized;
 }
 
 function checkAnswer() {
   const userAnswer = gameInput.value.trim();
   if (!userAnswer) return;
+  
+  if (userAnswer.toLowerCase() === 'power') {
+    checkPowerUpCollection();
+    gameInput.value = '';
+    return;
+  }
   
   gameState.totalAttempts++;
   let found = false;
@@ -1881,7 +2261,6 @@ function checkAnswer() {
     if (normalizedUserAnswer === normalizedCorrectAnswer) {
       found = true;
       
-      // Create explosion
       for (let j = 0; j < 20; j++) {
         gameState.particles.push(new Particle(
           eq.x + eq.width / 2,
@@ -1890,10 +2269,8 @@ function checkAnswer() {
         ));
       }
       
-      // Remove equation
       gameState.equations.splice(i, 1);
       
-      // Update score
       gameState.correctAnswers++;
       gameState.combo++;
       if (gameState.combo > gameState.maxCombo) {
@@ -1909,11 +2286,10 @@ function checkAnswer() {
       
       gameState.score += points;
       
-      // Level up
       if (gameState.correctAnswers % 10 === 0) {
         gameState.level++;
-        gameState.gameSpeed += 0.2;
-        gameState.spawnInterval = Math.max(800, gameState.spawnInterval - 150);
+        gameState.gameSpeed += 0.15;
+        gameState.spawnInterval = Math.max(1000, gameState.spawnInterval - 100);
       }
       
       playSuccessSound();
@@ -1928,6 +2304,41 @@ function checkAnswer() {
   
   gameInput.value = '';
   updateStats();
+}
+
+function checkPowerUpCollection() {
+  for (let i = gameState.powerUps.length - 1; i >= 0; i--) {
+    const pu = gameState.powerUps[i];
+    
+    if (pu.checkCollision()) {
+      activatePowerUp(pu.type);
+      
+      for (let j = 0; j < 15; j++) {
+        gameState.particles.push(new Particle(pu.x, pu.y, pu.colors[pu.type]));
+      }
+      
+      gameState.powerUps.splice(i, 1);
+      playSuccessSound();
+      return;
+    }
+  }
+}
+
+function activatePowerUp(type) {
+  if (type === 'slow') {
+    gameState.slowMotionActive = true;
+    setTimeout(() => {
+      gameState.slowMotionActive = false;
+    }, 5000);
+  } else if (type === 'life') {
+    gameState.lives = Math.min(gameState.lives + 1, 5);
+    updateStats();
+  } else if (type === 'double') {
+    gameState.doublePointsActive = true;
+    setTimeout(() => {
+      gameState.doublePointsActive = false;
+    }, 8000);
+  }
 }
 
 function loseLife() {
@@ -2007,7 +2418,6 @@ function playErrorSound() {
   osc.stop(audioContext.currentTime + 0.3);
 }
 
-// Input handler - FIXED: Now properly attached and working
 gameInput.addEventListener('keydown', function(e) {
   if (e.key === 'Enter' && gameState.isRunning && !gameState.isPaused) {
     e.preventDefault();
@@ -2015,7 +2425,6 @@ gameInput.addEventListener('keydown', function(e) {
   }
 });
 
-// Initialize
 drawStartScreen();
 </script>
 </body>
