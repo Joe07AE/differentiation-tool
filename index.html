@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Symbolic Differentiation Calculator</title>
+<title>Diff-Arena</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.3.0/math.js"></script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -690,14 +690,81 @@ select {
     padding: 12px !important;
   }
 }
+
+/* Study Section Styles - UPDATED FOR LARGER VIDEOS */
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+  gap: 40px;
+  margin-top: 20px;
+}
+
+@media (max-width: 1400px) {
+  .video-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .video-grid {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+}
+
+.video-card {
+  background: white;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.video-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+.video-card h3 {
+  color: #667eea;
+  margin-bottom: 20px;
+  font-size: 1.5em;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .video-card h3 {
+    font-size: 1.2em;
+    margin-bottom: 15px;
+  }
+}
+
+.video-wrapper {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  height: 0;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #000;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.video-wrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
 </style>
 </head>
 <body>
 
 <div class="container">
 <div class="decoration">📐 ∫ ∂ ∑ 📊</div>
-<h1>Symbolic Differentiation Calculator</h1>
-<p class="subtitle">Learn calculus step-by-step with detailed explanations!</p>
+<h1>Diff-Arena</h1>
+<p class="subtitle">Learn differentiation step-by-step with detailed explanations!</p>
 
 <div class="section">
 <h2>🎯 General Differentiation (d/dx)</h2>
@@ -827,6 +894,64 @@ select {
     • Don't let equations reach the bottom or you lose a life!<br>
     • Collect power-ups by typing "power" when they appear on screen: ⚡ Slow Time, 💚 Extra Life, 🎯 Double Points<br>
     • Level up every 10 correct answers - speed and complexity increases!
+  </div>
+</div>
+
+<div class="section">
+  <h2>📚 Study - Video Tutorials</h2>
+  <p style="text-align: center; font-size: 1.1em; margin-bottom: 20px; color: #666;">
+    Watch these video tutorials to master each differentiation rule!
+  </p>
+  
+  <div class="video-grid">
+    <div class="video-card">
+      <h3>➕ Sum Rule</h3>
+      <div class="video-wrapper">
+        <iframe src="https://www.youtube.com/embed/UQdL--H5K8E?rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+    </div>
+    
+    <div class="video-card">
+      <h3>✖️ Product Rule</h3>
+      <div class="video-wrapper">
+        <iframe src="https://www.youtube.com/embed/17X5g9QArTc?rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+    </div>
+    
+    <div class="video-card">
+      <h3>➗ Quotient Rule</h3>
+      <div class="video-wrapper">
+        <iframe src="https://www.youtube.com/embed/8jVDEcQ0wXk?rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+    </div>
+    
+    <div class="video-card">
+      <h3>⚡ Power Rule</h3>
+      <div class="video-wrapper">
+        <iframe src="https://www.youtube.com/embed/9Yz-RCdS2Tg?rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+    </div>
+    
+    <div class="video-card">
+      <h3>🔢 2nd Order Derivative</h3>
+      <div class="video-wrapper">
+        <iframe src="https://www.youtube.com/embed/WC5VYKI807Q?rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+    </div>
+    
+    <div class="video-card">
+      <h3>📈 Exponential Functions</h3>
+      <div class="video-wrapper">
+        <iframe src="https://www.youtube.com/embed/yg_497u6JnA?rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+    </div>
+    
+    <div class="video-card">
+      <h3>📉 Logarithmic Functions</h3>
+      <div class="video-wrapper">
+        <iframe src="https://www.youtube.com/embed/Dp9sgIvaKPk?rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -2236,6 +2361,14 @@ function normalizeAnswer(answer) {
   normalized = normalized.replace(/\*/g, '');
   // Remove unnecessary parentheses
   normalized = normalized.replace(/\(([^()]+)\)/g, '$1');
+  // Convert superscripts to standard notation
+  normalized = convertSuperscriptsToStandard(normalized);
+  // Add implicit ^1 for terms like "3x" to become "3x^1"
+  normalized = normalized.replace(/(\d*)x(?!\^)/g, '$1x^1');
+  // Normalize coefficient: if no coefficient before x, add "1"
+  normalized = normalized.replace(/^x/g, '1x');
+  normalized = normalized.replace(/([+\-])x/g, '$11x');
+  
   return normalized;
 }
 
