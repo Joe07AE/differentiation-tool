@@ -7,11 +7,58 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.3.0/math.js"></script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg-gradient-start: #667eea;
+  --bg-gradient-end: #764ba2;
+  --container-bg: rgba(255, 255, 255, 0.95);
+  --primary-color: #667eea;
+  --text-color: #333;
+  --text-secondary: #666;
+  --section-bg: linear-gradient(to bottom, #fafbff 0%, #f0f4ff 100%);
+  --section-border: #e0e7ff;
+  --input-bg: white;
+  --input-border: #c7d2fe;
+  --step-bg: white;
+  --step-border: #e0e7ff;
+  --step-box-bg: #f0f9ff;
+  --step-box-border: #0ea5e9;
+  --formula-bg: #fef3c7;
+  --formula-border: #fcd34d;
+  --info-box-bg: #fff3cd;
+  --info-box-border: #ffc107;
+  --info-box-text: #856404;
+}
+
+body.dark-mode {
+  --bg-gradient-start: #1a1a2e;
+  --bg-gradient-end: #16213e;
+  --container-bg: rgba(30, 30, 45, 0.95);
+  --primary-color: #8b9cff;
+  --text-color: #e0e0e0;
+  --text-secondary: #b0b0b0;
+  --section-bg: linear-gradient(to bottom, #2a2a3e 0%, #252538 100%);
+  --section-border: #3a3a4e;
+  --input-bg: #2a2a3e;
+  --input-border: #4a4a6e;
+  --step-bg: #2a2a3e;
+  --step-border: #3a3a4e;
+  --step-box-bg: #1e2a3e;
+  --step-box-border: #3a8ec9;
+  --formula-bg: #3a3520;
+  --formula-border: #6a5a2d;
+  --info-box-bg: #3a3520;
+  --info-box-border: #d4a017;
+  --info-box-text: #f5e6a8;
+}
+
 body { 
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
   min-height: 100vh;
   padding: 20px;
+  color: var(--text-color);
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 /* Mobile-first responsive adjustments */
@@ -24,10 +71,11 @@ body {
 .container { 
   max-width: 1200px; 
   margin: auto; 
-  background: rgba(255, 255, 255, 0.95); 
+  background: var(--container-bg);
   padding: 30px; 
   border-radius: 20px; 
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  transition: background 0.3s ease;
 }
 
 @media (max-width: 768px) {
@@ -38,11 +86,12 @@ body {
 }
 
 h1 { 
-  color: #667eea; 
+  color: var(--primary-color);
   text-align: center; 
   font-size: 2.5em;
   margin-bottom: 10px;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+  transition: color 0.3s ease;
 }
 
 @media (max-width: 768px) {
@@ -53,9 +102,10 @@ h1 {
 
 .subtitle {
   text-align: center;
-  color: #666;
+  color: var(--text-secondary);
   margin-bottom: 30px;
   font-size: 1.1em;
+  transition: color 0.3s ease;
 }
 
 @media (max-width: 768px) {
@@ -86,11 +136,11 @@ h2 {
 .section { 
   margin-bottom: 25px; 
   padding: 20px; 
-  border: 2px solid #e0e7ff; 
+  border: 2px solid var(--section-border);
   border-radius: 15px; 
-  background: linear-gradient(to bottom, #fafbff 0%, #f0f4ff 100%);
+  background: var(--section-bg);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s;
+  transition: transform 0.2s, background 0.3s ease, border-color 0.3s ease;
 }
 
 @media (max-width: 768px) {
@@ -109,12 +159,13 @@ input[type="text"] {
   width: 100%; 
   padding: 14px; 
   margin-bottom: 12px; 
-  border: 2px solid #c7d2fe; 
+  border: 2px solid var(--input-border);
   border-radius: 10px; 
   font-size: 1.1em; 
   font-family: 'Courier New', monospace;
-  background: white;
-  transition: border-color 0.3s;
+  background: var(--input-bg);
+  color: var(--text-color);
+  transition: border-color 0.3s, background 0.3s ease, color 0.3s ease;
 }
 
 @media (max-width: 768px) {
@@ -166,13 +217,14 @@ button:active {
 .steps { 
   margin-top: 15px; 
   padding: 20px; 
-  background: white;
-  border: 2px solid #e0e7ff; 
+  background: var(--step-bg);
+  border: 2px solid var(--step-border);
   border-radius: 12px; 
   line-height: 2;
   min-height: 60px; 
   font-size: 1.05em;
   box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 @media (max-width: 768px) {
@@ -220,11 +272,12 @@ button:active {
 }
 
 .step-box {
-  background: #f0f9ff;
-  border-left: 4px solid #0ea5e9;
+  background: var(--step-box-bg);
+  border-left: 4px solid var(--step-box-border);
   padding: 12px 15px;
   margin: 10px 0;
   border-radius: 6px;
+  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 @media (max-width: 768px) {
@@ -240,6 +293,10 @@ button:active {
   font-size: 1.1em;
 }
 
+body.dark-mode .step-title {
+  color: #5eb3e0;
+}
+
 @media (max-width: 768px) {
   .step-title {
     font-size: 1em;
@@ -247,18 +304,20 @@ button:active {
 }
 
 .step-content {
-  color: #334155;
+  color: var(--text-color);
   line-height: 1.8;
+  transition: color 0.3s ease;
 }
 
 .formula {
-  background: #fef3c7;
+  background: var(--formula-bg);
   padding: 8px 12px;
   border-radius: 6px;
   display: inline-block;
   margin: 5px 0;
   font-family: 'Courier New', monospace;
-  border: 1px solid #fcd34d;
+  border: 1px solid var(--formula-border);
+  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 @media (max-width: 768px) {
@@ -321,6 +380,36 @@ sup {
   box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
 }
 
+.dark-mode-toggle {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: white;
+  padding: 15px 25px;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);
+  font-weight: 600;
+  transition: all 0.3s;
+  z-index: 1000;
+  border: none;
+}
+
+@media (max-width: 768px) {
+  .dark-mode-toggle {
+    padding: 10px 15px;
+    font-size: 0.9em;
+    bottom: 70px;
+    right: 10px;
+  }
+}
+
+.dark-mode-toggle:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 30px rgba(245, 158, 11, 0.5);
+}
+
 .decoration {
   text-align: center;
   margin: 20px 0;
@@ -336,12 +425,14 @@ sup {
 
 select {
   padding: 10px;
-  border: 2px solid #c7d2fe;
+  border: 2px solid var(--input-border);
   border-radius: 8px;
   font-size: 1em;
   margin-left: 10px;
-  background: white;
+  background: var(--input-bg);
+  color: var(--text-color);
   cursor: pointer;
+  transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 
 @media (max-width: 768px) {
@@ -362,7 +453,7 @@ select {
 
 .fraction .numerator {
   display: block;
-  border-bottom: 2px solid #000;
+  border-bottom: 2px solid currentColor;
   padding: 0 5px 2px 5px;
   min-width: 20px;
 }
@@ -498,7 +589,8 @@ select {
 .difficulty-selector label {
   font-weight: bold;
   margin-right: 10px;
-  color: #2c3e50;
+  color: var(--text-color);
+  transition: color 0.3s ease;
 }
 
 @media (max-width: 768px) {
@@ -514,7 +606,8 @@ select {
   font-size: 1.1em;
   border: 2px solid #667eea;
   border-radius: 10px;
-  background: white;
+  background: var(--input-bg);
+  color: var(--text-color);
   cursor: pointer;
   transition: all 0.3s;
 }
@@ -679,15 +772,21 @@ select {
   background: linear-gradient(135deg, #7c8ef0 0%, #8b5bb5 100%);
 }
 
-/* Info box responsive */
-.section > div[style*="background: #fff3cd"] {
-  font-size: 0.95em;
+/* Info box styling with dark mode support */
+.info-box {
+  background: var(--info-box-bg);
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 15px;
+  border-left: 4px solid var(--info-box-border);
+  color: var(--info-box-text);
+  transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 
 @media (max-width: 768px) {
-  .section > div[style*="background: #fff3cd"] {
+  .info-box {
     font-size: 0.85em;
-    padding: 12px !important;
+    padding: 12px;
   }
 }
 
@@ -713,11 +812,11 @@ select {
 }
 
 .video-card {
-  background: white;
+  background: var(--input-bg);
   border-radius: 15px;
   padding: 25px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition: transform 0.3s, box-shadow 0.3s, background 0.3s ease;
 }
 
 .video-card:hover {
@@ -726,10 +825,11 @@ select {
 }
 
 .video-card h3 {
-  color: #667eea;
+  color: var(--primary-color);
   margin-bottom: 20px;
   font-size: 1.5em;
   text-align: center;
+  transition: color 0.3s ease;
 }
 
 @media (max-width: 768px) {
@@ -760,6 +860,8 @@ select {
 </style>
 </head>
 <body>
+
+<button class="dark-mode-toggle" onclick="toggleDarkMode()">🌙 Dark Mode</button>
 
 <div class="container">
 <div class="decoration">📐 ∫ ∂ ∑ 📊</div>
@@ -887,7 +989,7 @@ select {
     <button onclick="resetArcadeGame()">🔄 RESET</button>
   </div>
 
-  <div style="background: #fff3cd; padding: 15px; border-radius: 10px; margin-top: 15px; border-left: 4px solid #ffc107;">
+  <div class="info-box">
     <b>🎯 How to Play:</b><br>
     • Equations fall from the top - type their derivatives to destroy them!<br>
     • Build combos by answering correctly in a row (2x, 3x, 5x multipliers!)<br>
@@ -975,6 +1077,30 @@ select {
 <div class="music-control" onclick="toggleMusic()">🎵 Music: <span id="musicStatus">OFF</span></div>
 
 <script>
+// Dark Mode Toggle Function
+function toggleDarkMode() {
+  document.body.classList.toggle('dark-mode');
+  const isDarkMode = document.body.classList.contains('dark-mode');
+  const toggleBtn = document.querySelector('.dark-mode-toggle');
+  
+  if (isDarkMode) {
+    toggleBtn.innerHTML = '☀️ Light Mode';
+    localStorage.setItem('darkMode', 'enabled');
+  } else {
+    toggleBtn.innerHTML = '🌙 Dark Mode';
+    localStorage.setItem('darkMode', 'disabled');
+  }
+}
+
+// Load dark mode preference on page load
+window.addEventListener('DOMContentLoaded', function() {
+  const darkModePreference = localStorage.getItem('darkMode');
+  if (darkModePreference === 'enabled') {
+    document.body.classList.add('dark-mode');
+    document.querySelector('.dark-mode-toggle').innerHTML = '☀️ Light Mode';
+  }
+});
+
 // Audio Context for generating relaxing background music
 let audioContext;
 let musicNodes = [];
